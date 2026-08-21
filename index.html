@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Ecommerce Chatbot</title>
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css"
+    rel="stylesheet"
+  >
+
+  <style>
+    html, body {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    #n8n-chat {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="n8n-chat"></div>
+
+  <script type="module">
+    import { createChat } from
+      "https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js";
+
+    createChat({
+      webhookUrl: "https://zapsule.app.n8n.cloud/webhook/a5c5564f-cc38-4be0-b6c7-af232cd4e984/chat",
+      target: "#n8n-chat",
+      mode: "fullscreen"
+    });
+  </script>
+
+</body>
+</html>
