@@ -10,19 +10,6 @@
     href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css"
     rel="stylesheet"
   >
-
-  <style>
-    html, body {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    #n8n-chat {
-      width: 100%;
-      height: 100%;
-    }
-  </style>
 </head>
 
 <body>
@@ -36,7 +23,21 @@
     createChat({
       webhookUrl: "https://zapsule.app.n8n.cloud/webhook/a5c5564f-cc38-4be0-b6c7-af232cd4e984/chat",
       target: "#n8n-chat",
-      mode: "fullscreen"
+      mode: "fullscreen",
+      defaultLanguage: "en",
+
+      initialMessages: [
+        "Hi there! 👋",
+        "How can I help you with our products?"
+      ],
+
+      i18n: {
+        en: {
+          title: "Ecommerce Assistant",
+          subtitle: "Ask me about products, prices, and stock.",
+          inputPlaceholder: "Type your question..."
+        }
+      }
     });
   </script>
 
