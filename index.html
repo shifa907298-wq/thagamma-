@@ -239,7 +239,15 @@
       font-size: 11px;
       margin-top: 8px;
     }
-
+.product-image {
+  display: block;
+  width: 100%;
+  max-width: 280px;
+  height: auto;
+  margin-top: 10px;
+  border-radius: 12px;
+  object-fit: cover;
+}
     .error .bubble {
       color: var(--danger) !important;
       background: #fef2f2 !important;
@@ -368,21 +376,46 @@
       localStorage.setItem("zapsuleSessionId", sessionId);
     }
 
-    function addMessage(text, sender = "bot", extraClass = "") {
-      const row = document.createElement("div");
-      row.className = `message-row ${sender} ${extraClass}`.trim();
+  function addMessage(text, sender = "bot", extraClass = "") {
+  const row = document.createElement("div");
+  row.className = `message-row ${sender} ${extraClass}`.trim();
 
-      const bubble = document.createElement("div");
-      bubble.className = "bubble";
-      bubble.textContent = text;
+  const bubble = document.createElement("div");
+  bubble.className = "bubble";
 
-      row.appendChild(bubble);
-      chatBody.appendChild(row);
+  const imageMatch =
+    sender === "bot"
+      ? text.match(/IMAGE_URL:\s*(https?:\/\/[^\s]+)/i)
+      : null;
 
-      scrollToBottom();
+  const cleanText = imageMatch
+    ? text.replace(/IMAGE_URL:\s*https?:\/\/[^\s]+/i, "").trim()
+    : text;
 
-      return row;
-    }
+  bubble.textContent = cleanText;
+
+  if (imageMatch) {
+    const img = document.createElement("img");
+
+    img.src = imageMatch[1];
+    img.alt = "Product image";
+    img.className = "product-image";
+    img.loading = "lazy";
+
+    img.onerror = () => {
+      img.remove();
+    };
+
+    bubble.appendChild(img);
+  }
+
+  row.appendChild(bubble);
+  chatBody.appendChild(row);
+
+  scrollToBottom();
+
+  return row;
+}
 
     function addTypingIndicator() {
       const row = document.createElement("div");
