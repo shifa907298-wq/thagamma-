@@ -362,7 +362,7 @@
 
   <script>
     // n8n production webhook
-   const WEBHOOK_URL = "https://zapsoole.app.n8n.cloud/webhook/ecommerce-chat";
+    const WEBHOOK_URL = "https://zapsoole.app.n8n.cloud/webhook/ecommerce-chat";
 
     // Used only when a product-specific image cannot be loaded.
     const FALLBACK_IMAGE_URL =
@@ -443,7 +443,6 @@
       }
 
       if (typeof value === "object") {
-        // Prefer fields that are explicitly intended to contain product images.
         const imageKeys = ["image_url", "imageUrl", "imageURL", "image_line", "imageLine"];
 
         for (const key of imageKeys) {
@@ -453,13 +452,19 @@
 
           if (typeof raw === "string") {
             const lineUrls = extractImageUrlsFromText(raw);
+
             if (lineUrls.length) {
               for (const url of lineUrls) {
                 if (!found.includes(url)) found.push(url);
               }
             } else {
-              const clean = sanitizeImageUrl(raw.replace(/^IMAGE_URL\s*:\s*/i, ""));
-              if (clean && !found.includes(clean)) found.push(clean);
+              const clean = sanitizeImageUrl(
+                raw.replace(/^IMAGE_URL\s*:\s*/i, "")
+              );
+
+              if (clean && !found.includes(clean)) {
+                found.push(clean);
+              }
             }
           }
         }
@@ -491,7 +496,9 @@
 
       if (Array.isArray(data) && data.length > 0) {
         const first = data[0];
+
         if (typeof first === "string") candidates.push(first);
+
         if (first && typeof first === "object") {
           for (const key of ["output", "reply", "message", "text", "answer", "content"]) {
             if (typeof first[key] === "string") candidates.push(first[key]);
@@ -506,7 +513,14 @@
       const rawText = extractReplyText(data);
       const textImageUrls = extractImageUrlsFromText(rawText);
       const structuredImageUrls = findImageUrlsDeep(data);
-      const imageUrls = [...new Set([...textImageUrls, ...structuredImageUrls])];
+
+      const imageUrls = [
+        ...new Set([
+          ...textImageUrls,
+          ...structuredImageUrls
+        ])
+      ];
+
       const cleanText = removeImageUrlLines(rawText);
 
       return {
@@ -532,8 +546,10 @@
       img.addEventListener("error", () => {
         console.error("Product image failed to load:", img.src);
 
-        // Do not silently delete the image. Try the store fallback once.
-        if (img.dataset.fallbackAttempted !== "1" && img.src !== FALLBACK_IMAGE_URL) {
+        if (
+          img.dataset.fallbackAttempted !== "1" &&
+          img.src !== FALLBACK_IMAGE_URL
+        ) {
           img.dataset.fallbackAttempted = "1";
           img.src = FALLBACK_IMAGE_URL;
           return;
@@ -545,6 +561,7 @@
 
       const wrapper = document.createElement("div");
       wrapper.className = "image-wrap";
+
       wrapper.appendChild(img);
       wrapper.appendChild(errorText);
 
@@ -559,14 +576,19 @@
       bubble.className = "bubble";
 
       const safeText = typeof text === "string" ? text.trim() : "";
+
       const validImageUrls = imageUrls
         .map(sanitizeImageUrl)
-        .filter((url, index, list) => url && list.indexOf(url) === index);
+        .filter(
+          (url, index, list) =>
+            url && list.indexOf(url) === index
+        );
 
       if (safeText) {
         const textNode = document.createElement("div");
         textNode.className = "message-text";
         textNode.textContent = safeText;
+
         bubble.appendChild(textNode);
       }
 
@@ -574,19 +596,21 @@
         bubble.appendChild(createImageElement(imageUrl));
       }
 
-      // Never append an empty white bubble.
       if (!safeText && validImageUrls.length === 0) {
         const fallbackText = document.createElement("div");
         fallbackText.className = "message-text";
+
         fallbackText.textContent =
           sender === "bot"
             ? "I received a response, but there was no message or image to display."
             : "";
+
         bubble.appendChild(fallbackText);
       }
 
       row.appendChild(bubble);
       chatBody.appendChild(row);
+
       scrollToBottom();
 
       return row;
@@ -594,7 +618,13 @@
 
     function addBotResponse(data) {
       const parsed = normalizeBotResponse(data);
-      return addMessage(parsed.text, "bot", "", parsed.imageUrls);
+
+      return addMessage(
+        parsed.text,
+        "bot",
+        "",
+        parsed.imageUrls
+      );
     }
 
     function addTypingIndicator() {
@@ -612,6 +642,7 @@
       bubble.appendChild(typing);
       row.appendChild(bubble);
       chatBody.appendChild(row);
+
       scrollToBottom();
     }
 
@@ -625,11 +656,13 @@
 
     function resizeTextarea() {
       messageInput.style.height = "auto";
-      messageInput.style.height = Math.min(messageInput.scrollHeight, 120) + "px";
+      messageInput.style.height =
+        Math.min(messageInput.scrollHeight, 120) + "px";
     }
 
     async function readResponse(response) {
-      const contentType = response.headers.get("content-type") || "";
+      const contentType =
+        response.headers.get("content-type") || "";
 
       if (contentType.includes("application/json")) {
         return response.json();
@@ -645,11 +678,14 @@
     }
 
     async function sendMessage(prefilledMessage = null) {
-      const message = (prefilledMessage ?? messageInput.value).trim();
+      const message =
+        (prefilledMessage ?? messageInput.value).trim();
 
       if (!message || sendButton.disabled) return;
 
-      if (quickActions) quickActions.style.display = "none";
+      if (quickActions) {
+        quickActions.style.display = "none";
+      }
 
       addMessage(message, "user");
 
@@ -657,7 +693,10 @@
       resizeTextarea();
 
       sendButton.disabled = true;
-      messageInput.disabled = true;
+
+      // Keep the input active and focused while AI is responding.
+      messageInput.focus();
+
       addTypingIndicator();
 
       try {
@@ -677,13 +716,18 @@
 
         if (!response.ok) {
           const backendMessage = extractReplyText(data);
-          throw new Error(backendMessage || `HTTP ${response.status}`);
+
+          throw new Error(
+            backendMessage || `HTTP ${response.status}`
+          );
         }
 
         removeTypingIndicator();
         addBotResponse(data);
+
       } catch (error) {
         console.error("Zapsule webhook error:", error);
+
         removeTypingIndicator();
 
         addMessage(
@@ -691,25 +735,33 @@
           "bot",
           "error"
         );
+
       } finally {
         sendButton.disabled = false;
-        messageInput.disabled = false;
         messageInput.focus();
       }
     }
 
-    sendButton.addEventListener("click", () => sendMessage());
+    sendButton.addEventListener("click", () => {
+      sendMessage();
+    });
+
     messageInput.addEventListener("input", resizeTextarea);
 
     messageInput.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" && !event.shiftKey) {
+      if (
+        event.key === "Enter" &&
+        !event.shiftKey
+      ) {
         event.preventDefault();
         sendMessage();
       }
     });
 
     document.querySelectorAll(".quick-btn").forEach((button) => {
-      button.addEventListener("click", () => sendMessage(button.dataset.message));
+      button.addEventListener("click", () => {
+        sendMessage(button.dataset.message);
+      });
     });
   </script>
 </body>
