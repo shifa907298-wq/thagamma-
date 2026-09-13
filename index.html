@@ -373,7 +373,7 @@
     const sendButton = document.getElementById("sendButton");
     const quickActions = document.getElementById("quickActions");
 
-    let sessionId = localStorage.getItem("zapsuleSessionId");
+    let sessionId = localStorage.getItem("zapChatSessionId");
 
     if (!sessionId) {
       sessionId =
@@ -381,7 +381,20 @@
           ? crypto.randomUUID()
           : "session-" + Date.now() + "-" + Math.random().toString(36).slice(2);
 
-      localStorage.setItem("zapsuleSessionId", sessionId);
+      localStorage.setItem("zapChatSessionId", sessionId);
+    }
+
+    // Required by the current n8n "Validate Request" node.
+    // This is only a browser identifier, NOT a password or secret credential.
+    let browserUserId = localStorage.getItem("zapChatBrowserUserId");
+
+    if (!browserUserId) {
+      browserUserId =
+        window.crypto && crypto.randomUUID
+          ? crypto.randomUUID()
+          : "user-" + Date.now() + "-" + Math.random().toString(36).slice(2);
+
+      localStorage.setItem("zapChatBrowserUserId", browserUserId);
     }
 
     function sanitizeImageUrl(value) {
@@ -703,12 +716,13 @@
         const response = await fetch(WEBHOOK_URL, {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "X-Chat-User-Id": browserUserId
           },
           body: JSON.stringify({
             message,
             sessionId,
-            source: "zapsule-web"
+            source: "zap-chat-web"
           })
         });
 
@@ -726,12 +740,12 @@
         addBotResponse(data);
 
       } catch (error) {
-        console.error("Zapsule webhook error:", error);
+        console.error("Zap Chat webhook error:", error);
 
         removeTypingIndicator();
 
         addMessage(
-          "I couldn't connect to Zapsule AI. Please try again.",
+          "I couldn't connect to Zap Chat AI. Please try again.",
           "bot",
           "error"
         );
