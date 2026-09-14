@@ -1,103 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#111827" />
-  <title>Zap Chat</title>
-  <style>
-    *{box-sizing:border-box;margin:0;padding:0}
-    :root{--bg:#d4b068;--panel:#fff;--text:#111827;--muted:#6b7280;--border:#e5e7eb;--brand:#111827;--bot:#f3f4f6;--danger:#b91c1c;--ok:#16a34a}
-    body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;background:var(--bg);color:var(--text);display:grid;place-items:center;padding:18px}
-    .chat-shell{width:min(100%,900px);height:min(90vh,820px);min-height:560px;background:var(--panel);border:1px solid var(--border);border-radius:22px;overflow:hidden;box-shadow:0 18px 55px rgba(17,24,39,.12);display:grid;grid-template-rows:auto 1fr auto}
-    .chat-header{display:flex;align-items:center;gap:12px;padding:18px 20px;border-bottom:1px solid var(--border);background:var(--bg)}
-    .logo{width:44px;height:44px;border-radius:14px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px}
-    .header-copy h1{font-size:18px}.status{margin-top:4px;color:var(--muted);font-size:13px;display:flex;align-items:center;gap:6px}.status-dot{width:8px;height:8px;border-radius:50%;background:var(--ok)}
-    .chat-body{overflow-y:auto;padding:24px 20px 16px;background:var(--bg);scroll-behavior:smooth}.message-row{display:flex;margin-bottom:14px}.message-row.user{justify-content:flex-end}
-    .bubble{max-width:min(82%,660px);padding:12px 14px;border-radius:17px;font-size:15px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.message-row.bot .bubble{background:var(--bot);border-bottom-left-radius:5px}.message-row.user .bubble{background:var(--brand);color:#fff;border-bottom-right-radius:5px}
-    .product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;margin:8px 0 18px}.product-card{background:#fff;border:1px solid var(--border);border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(17,24,39,.06)}
-    .product-image-wrap{aspect-ratio:4/3;background:#f9fafb;display:grid;place-items:center;overflow:hidden}.product-image{width:100%;height:100%;object-fit:contain}.image-placeholder{font-size:12px;color:var(--muted);padding:18px;text-align:center}
-    .product-copy{padding:12px}.product-name{font-weight:750;font-size:14px;line-height:1.35}.product-meta{margin-top:7px;font-size:12px;color:var(--muted);display:grid;gap:3px}.product-description{margin-top:8px;font-size:12px;line-height:1.45;color:#374151;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
-    .chips,.quick-actions{display:flex;flex-wrap:wrap;gap:8px;margin:7px 0 18px}.chip,.quick-btn{border:1px solid var(--border);background:#fff;color:var(--text);padding:9px 12px;border-radius:999px;cursor:pointer;font:inherit;font-size:13px}.chip:hover,.quick-btn:hover{background:#f9fafb}
-    .typing{display:inline-flex;gap:5px;align-items:center;min-width:54px}.typing span{width:7px;height:7px;border-radius:50%;background:#9ca3af;animation:bounce 1.2s infinite ease-in-out}.typing span:nth-child(2){animation-delay:.15s}.typing span:nth-child(3){animation-delay:.3s}@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.55}30%{transform:translateY(-5px);opacity:1}}
-    .composer{border-top:1px solid var(--border);padding:14px;background:var(--bg)}.composer-row{display:grid;grid-template-columns:1fr auto;align-items:end;gap:10px;border:1px solid var(--border);border-radius:16px;padding:8px;background:rgba(255,255,255,.35)}
-    textarea{width:100%;resize:none;border:0;outline:0;padding:8px 10px;min-height:42px;max-height:120px;font:inherit;font-size:15px;color:var(--text);background:transparent}.send-btn{width:44px;height:44px;border:0;border-radius:12px;background:var(--brand);color:#fff;display:grid;place-items:center;cursor:pointer}.send-btn:disabled{opacity:.45;cursor:not-allowed}.send-btn svg{width:20px;height:20px}.helper{text-align:center;color:var(--muted);font-size:11px;margin-top:8px}.error .bubble{color:var(--danger)!important;background:#fef2f2!important}
-    @media(max-width:640px){body{padding:0;background:#fff}.chat-shell{width:100%;height:100dvh;min-height:100dvh;border:0;border-radius:0;box-shadow:none}.chat-header{padding:14px 16px}.chat-body{padding:20px 14px 12px}.bubble{max-width:90%}.product-grid{grid-template-columns:1fr 1fr;gap:9px}.product-copy{padding:10px}}
-    @media(max-width:430px){.product-grid{grid-template-columns:1fr}}
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#111827" />
+<title>Zap Chat</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}:root{--bg:#d9b463;--panel:#fff;--text:#111827;--muted:#667085;--border:#e5e7eb;--brand:#0f1d35;--bot:#f8fafc;--danger:#b42318;--skeleton:#e9edf2}body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;background:var(--bg);color:var(--text);display:grid;place-items:center;padding:14px}.chat-shell{width:min(100%,860px);height:min(90vh,800px);min-height:560px;background:var(--bg);border:1px solid rgba(255,255,255,.9);border-radius:22px;overflow:hidden;box-shadow:0 18px 55px rgba(17,24,39,.12);display:grid;grid-template-rows:auto 1fr auto}.chat-header{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.75)}.logo{width:42px;height:42px;border-radius:13px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px}.header-copy h1{font-size:18px}.status{margin-top:3px;color:var(--muted);font-size:12px;display:flex;gap:6px;align-items:center}.status-dot{width:7px;height:7px;border-radius:50%;background:#22c55e}.chat-body{overflow-y:auto;padding:18px 18px 14px;scroll-behavior:smooth}.message-row{display:flex;margin-bottom:12px}.message-row.user{justify-content:flex-end}.bubble{max-width:min(78%,620px);padding:11px 13px;border-radius:15px;font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.bot .bubble{background:var(--bot);border-bottom-left-radius:5px}.user .bubble{background:var(--brand);color:#fff;border-bottom-right-radius:5px}.error .bubble{color:var(--danger);background:#fef3f2}.quick-actions,.category-actions{display:flex;flex-wrap:wrap;gap:7px;margin:5px 0 16px}.quick-btn,.category-btn{border:1px solid var(--border);background:#fff;color:var(--text);padding:8px 11px;border-radius:999px;cursor:pointer;font:inherit;font-size:12px}.quick-btn:hover,.category-btn:hover{background:#f9fafb}.product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:7px 0 16px}.product-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;min-width:0}.product-media{height:190px;background:#f8fafc;display:grid;place-items:center;overflow:hidden}.product-image{width:100%;height:100%;object-fit:contain;background:#fff}.image-missing,.image-failed{padding:14px;text-align:center;font-size:11px;color:var(--muted)}.image-failed button{margin-top:8px;border:1px solid var(--border);background:#fff;border-radius:8px;padding:5px 8px;cursor:pointer}.product-copy{padding:10px}.product-name{font-weight:750;font-size:13px;line-height:1.35;margin-bottom:5px}.product-meta,.product-desc{font-size:11px;line-height:1.45;color:#475467}.product-desc{margin-top:5px}.typing{display:inline-flex;gap:5px;align-items:center;min-width:48px}.typing span{width:7px;height:7px;border-radius:50%;background:#98a2b3;animation:bounce 1.1s infinite ease-in-out}.typing span:nth-child(2){animation-delay:.14s}.typing span:nth-child(3){animation-delay:.28s}@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}.skeleton-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:7px 0 16px}.skeleton-card{height:290px;border-radius:14px;background:linear-gradient(90deg,#eef1f4 25%,#f7f8fa 37%,#eef1f4 63%);background-size:400% 100%;animation:shimmer 1.2s infinite}@keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}.composer{border-top:1px solid rgba(255,255,255,.75);padding:10px}.composer-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end;background:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.9);border-radius:14px;padding:7px}textarea{width:100%;resize:none;border:0;outline:0;background:transparent;padding:8px 9px;min-height:40px;max-height:120px;font:inherit;font-size:14px}.send-btn{width:42px;height:42px;border:0;border-radius:11px;background:var(--brand);color:#fff;cursor:pointer;font-size:17px}.send-btn:disabled{opacity:.45;cursor:not-allowed}.helper{text-align:center;color:var(--muted);font-size:9px;margin-top:5px}@media(max-width:700px){body{padding:0}.chat-shell{width:100%;height:100dvh;min-height:100dvh;border:0;border-radius:0}.product-grid,.skeleton-grid{grid-template-columns:1fr}.product-media{height:230px}.bubble{max-width:90%}}
+</style>
 </head>
 <body>
-  <main class="chat-shell">
-    <header class="chat-header"><div class="logo">Z</div><div class="header-copy"><h1>ZAP CHAT</h1><div class="status"><span class="status-dot"></span>AI product assistant</div></div></header>
-    <section id="chatBody" class="chat-body" aria-live="polite">
-      <div class="message-row bot"><div class="bubble">Hi! I can help you discover products, compare options, check prices and availability, or browse by category.</div></div>
-      <div class="quick-actions" id="quickActions">
-        <button class="quick-btn" data-message="What products are available?">Browse categories</button>
-        <button class="quick-btn" data-message="Show me smartphones under 100 OMR">Phones under 100 OMR</button>
-        <button class="quick-btn" data-message="Can you recommend a good power bank?">Recommend a power bank</button>
-      </div>
-    </section>
-    <footer class="composer"><div class="composer-row"><textarea id="messageInput" rows="1" maxlength="1200" placeholder="Ask Zap Chat..." aria-label="Message"></textarea><button id="sendButton" class="send-btn" type="button" aria-label="Send message"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 2 11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="m22 2-7 20-4-9-9-4 20-7Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></button></div><div class="helper">Powered by Zap Chat AI</div></footer>
-  </main>
-  <script>
-    // Direct GitHub Pages -> n8n connection.
-    // IMPORTANT: In the n8n Webhook node, set Authentication = None for this direct-browser version.
-    console.info('Zap Chat frontend: FINAL-working-v3');
-    const CHAT_API_URL = "https://zapsoole.app.n8n.cloud/webhook/zap-chat-search-v3";
-    const REQUEST_TIMEOUT_MS = 20000;
-    const chatBody=document.getElementById('chatBody'),messageInput=document.getElementById('messageInput'),sendButton=document.getElementById('sendButton'),quickActions=document.getElementById('quickActions');
-    let sessionId=localStorage.getItem('zapChatSessionId');
-    if(!sessionId){sessionId=crypto.randomUUID?crypto.randomUUID():`session-${Date.now()}-${Math.random().toString(36).slice(2)}`;localStorage.setItem('zapChatSessionId',sessionId)}
-
-    // Browser-scoped ID required by the current v3 Validate & Fast Route node.
-    // This is not a password or API secret.
-    let browserUserId=localStorage.getItem('zapChatBrowserUserId');
-    if(!browserUserId){browserUserId=crypto.randomUUID?crypto.randomUUID():`user-${Date.now()}-${Math.random().toString(36).slice(2)}`;localStorage.setItem('zapChatBrowserUserId',browserUserId)}
-    const money=v=>Number.isFinite(v)?`${Number(v).toFixed(3)} OMR`:'Price not confirmed';
-    const stock=v=>v==='in_stock'?'In stock':v==='out_of_stock'?'Out of stock':'Stock not confirmed';
-    function scrollToBottom(){chatBody.scrollTop=chatBody.scrollHeight}
-    function resizeTextarea(){messageInput.style.height='auto';messageInput.style.height=Math.min(messageInput.scrollHeight,120)+'px'}
-    function addMessage(text,sender='bot',extraClass=''){const row=document.createElement('div');row.className=`message-row ${sender} ${extraClass}`.trim();const bubble=document.createElement('div');bubble.className='bubble';bubble.textContent=String(text||'').trim();row.appendChild(bubble);chatBody.appendChild(row);scrollToBottom();return row}
-    function addTyping(){const row=document.createElement('div');row.id='typingRow';row.className='message-row bot';const bubble=document.createElement('div');bubble.className='bubble';const typing=document.createElement('div');typing.className='typing';typing.innerHTML='<span></span><span></span><span></span>';bubble.appendChild(typing);row.appendChild(bubble);chatBody.appendChild(row);scrollToBottom()}
-    function removeTyping(){document.getElementById('typingRow')?.remove()}
-    function addCategories(categories){if(!Array.isArray(categories)||!categories.length)return;const wrap=document.createElement('div');wrap.className='chips';for(const category of categories){if(typeof category!=='string'||!category.trim())continue;const b=document.createElement('button');b.className='chip';b.type='button';b.textContent=category.trim();b.addEventListener('click',()=>sendMessage(`Show me ${category.trim()}`));wrap.appendChild(b)}chatBody.appendChild(wrap);scrollToBottom()}
-    function safeImageUrl(value){
-      if(typeof value!=='string'||!value.trim())return'';
-      try{
-        const u=new URL(value.trim());
-        if(u.protocol!=='https:')return'';
-        const host=u.hostname.toLowerCase();
-        if(host!=='f.nooncdn.com' && host!=='zmqjrkgzbscuyvrepskk.supabase.co')return'';
-        return u.href;
-      }catch{return'';}
-    }
-    function addProducts(products){if(!Array.isArray(products)||!products.length)return;const grid=document.createElement('div');grid.className='product-grid';for(const p of products){if(!p||typeof p.name!=='string')continue;const card=document.createElement('article');card.className='product-card';const media=document.createElement('div');media.className='product-image-wrap';const url=safeImageUrl(p.image_url);if(!url){console.warn('No usable image_url for product:',p.name,p.image_url)}if(url){const img=document.createElement('img');img.className='product-image';img.src=url;img.alt=p.name;img.loading='lazy';img.decoding='async';img.referrerPolicy='no-referrer';
-        const originalUrl=url;
-        let retryCount=0;
-        img.addEventListener('error',()=>{
-          console.error('Image failed to load:',p.name,img.src);
-          try{
-            const u=new URL(originalUrl);
-            if(u.hostname.toLowerCase()==='f.nooncdn.com' && retryCount===0){
-              retryCount++;
-              u.searchParams.set('width','800');
-              img.src=u.href;
-              return;
-            }
-            if(u.hostname.toLowerCase()==='f.nooncdn.com' && retryCount===1){
-              retryCount++;
-              u.searchParams.set('width','original');
-              img.src=u.href;
-              return;
-            }
-          }catch{}
-          media.replaceChildren(Object.assign(document.createElement('div'),{className:'image-placeholder',textContent:'Product image unavailable'}));
-        });
-        media.appendChild(img)}else{const ph=document.createElement('div');ph.className='image-placeholder';ph.textContent='Product image unavailable';media.appendChild(ph)}
-      const copy=document.createElement('div');copy.className='product-copy';const name=document.createElement('div');name.className='product-name';name.textContent=p.name;const meta=document.createElement('div');meta.className='product-meta';for(const line of [p.category||'',money(p.price),stock(p.availability)]){if(!line)continue;const d=document.createElement('div');d.textContent=line;meta.appendChild(d)}copy.append(name,meta);if(p.description){const desc=document.createElement('div');desc.className='product-description';desc.textContent=p.description;copy.appendChild(desc)}card.append(media,copy);grid.appendChild(card)}chatBody.appendChild(grid);scrollToBottom()}
-    async function readResponse(response){const ct=response.headers.get('content-type')||'';if(ct.includes('application/json'))return response.json();const text=await response.text();try{return JSON.parse(text)}catch{return{output:text}}}
-    async function sendMessage(prefilled=null){const message=(prefilled??messageInput.value).trim();if(!message||sendButton.disabled)return;if(quickActions)quickActions.style.display='none';addMessage(message,'user');messageInput.value='';resizeTextarea();sendButton.disabled=true;messageInput.focus();addTyping();const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),REQUEST_TIMEOUT_MS);const started=performance.now();try{const response=await fetch(CHAT_API_URL,{method:'POST',headers:{'Content-Type':'application/json','X-Chat-User-Id':browserUserId},body:JSON.stringify({message,sessionId,source:'zap-chat-web'}),signal:controller.signal});const data=await readResponse(response);if(!response.ok)throw new Error(typeof data?.output==='string'?data.output:`HTTP ${response.status}`);removeTyping();addMessage(typeof data.output==='string'&&data.output.trim()?data.output:'I received an empty response.','bot');addProducts(data.products);addCategories(data.categories);console.debug('Zap Chat response ms:',Math.round(performance.now()-started),'status:',data.status)}catch(err){console.error('Zap Chat request failed:',err);removeTyping();let msg="I couldn't connect to Zap Chat. Please try again.";if(err?.name==='AbortError')msg='Zap Chat took too long to respond. Please try again.';else if(String(err?.message||'').includes('401'))msg='n8n blocked the request. For direct GitHub Pages mode, set the Webhook Authentication to None.';addMessage(msg,'bot','error')}finally{clearTimeout(timer);sendButton.disabled=false;messageInput.focus()}}
-    sendButton.addEventListener('click',()=>sendMessage());messageInput.addEventListener('input',resizeTextarea);messageInput.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}});document.querySelectorAll('.quick-btn').forEach(b=>b.addEventListener('click',()=>sendMessage(b.dataset.message)));
-  </script>
-</body>
-</html>
+<main class="chat-shell">
+<header class="chat-header"><div class="logo">Z</div><div class="header-copy"><h1>ZAP CHAT</h1><div class="status"><span class="status-dot"></span>AI product assistant</div></div></header>
+<section id="chatBody" class="chat-body" aria-live="polite"><div class="message-row bot"><div class="bubble">Hi! I can help you discover products, compare options, check prices and availability, or browse by category.</div></div><div class="quick-actions" id="quickActions"><button class="quick-btn" data-message="What products are available?">Browse categories</button><button class="quick-btn" data-message="Show me smartphones under 100 OMR">Phones under 100 OMR</button><button class="quick-btn" data-message="Recommend a good power bank">Recommend a power bank</button></div></section>
+<footer class="composer"><div class="composer-row"><textarea id="messageInput" rows="1" maxlength="1200" placeholder="Ask Zap Chat..." aria-label="Message"></textarea><button id="sendButton" class="send-btn" type="button" aria-label="Send">➤</button></div><div class="helper">Powered by Zap Chat AI</div></footer>
+</main>
+<script>
+// REQUIRED: replace once after deploying zap-chat-enterprise-v4-worker.js
+const GATEWAY_BASE_URL="https://YOUR-ZAP-CHAT-GATEWAY.workers.dev";
+const CHAT_API_URL=`${GATEWAY_BASE_URL}/zap-chat`;
+const IMAGE_PROXY_URL=`${GATEWAY_BASE_URL}/image`;
+const chatBody=document.getElementById('chatBody'),input=document.getElementById('messageInput'),sendButton=document.getElementById('sendButton'),quickActions=document.getElementById('quickActions');
+let sessionId=localStorage.getItem('zapChatSessionId');if(!sessionId){sessionId=crypto.randomUUID?crypto.randomUUID():`session-${Date.now()}-${Math.random().toString(36).slice(2)}`;localStorage.setItem('zapChatSessionId',sessionId)}
+let browserUserId=localStorage.getItem('zapChatBrowserUserId');if(!browserUserId){browserUserId=crypto.randomUUID?crypto.randomUUID():`browser-${Date.now()}-${Math.random().toString(36).slice(2)}`;localStorage.setItem('zapChatBrowserUserId',browserUserId)}
+let activeCategory=localStorage.getItem('zapChatActiveCategory')||'';
+const text=(v)=>typeof v==='string'?v.trim():'';
+function configured(){return !GATEWAY_BASE_URL.includes('YOUR-ZAP-CHAT-GATEWAY')}
+function scrollBottom(){chatBody.scrollTop=chatBody.scrollHeight}
+function addMessage(message,sender='bot',cls=''){const row=document.createElement('div');row.className=`message-row ${sender} ${cls}`.trim();const b=document.createElement('div');b.className='bubble';b.textContent=message;row.appendChild(b);chatBody.appendChild(row);scrollBottom();return row}
+function addTyping(){removeTyping();const row=document.createElement('div');row.id='typingRow';row.className='message-row bot';const b=document.createElement('div');b.className='bubble';b.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';row.appendChild(b);chatBody.appendChild(row);scrollBottom()}
+function removeTyping(){document.getElementById('typingRow')?.remove()}
+function addSkeleton(){removeSkeleton();const g=document.createElement('div');g.id='skeletonGrid';g.className='skeleton-grid';for(let i=0;i<3;i++){const c=document.createElement('div');c.className='skeleton-card';g.appendChild(c)}chatBody.appendChild(g);scrollBottom()}
+function removeSkeleton(){document.getElementById('skeletonGrid')?.remove()}
+function safeCatalogImageUrl(v){if(typeof v!=='string'||!v.trim())return'';try{const u=new URL(v.trim());if(u.protocol!=='https:')return'';const h=u.hostname.toLowerCase();if(h!=='f.nooncdn.com'&&h!=='zmqjrkgzbscuyvrepskk.supabase.co')return'';return u.href}catch{return''}}
+function proxiedImage(raw){const u=safeCatalogImageUrl(raw);return u?`${IMAGE_PROXY_URL}?url=${encodeURIComponent(u)}`:''}
+function renderImage(media,p,index){const raw=safeCatalogImageUrl(p.image_url);if(!raw){const m=document.createElement('div');m.className='image-missing';m.textContent='No product image in catalog';media.appendChild(m);return}const img=document.createElement('img');img.className='product-image';img.src=proxiedImage(raw);img.alt=p.name||'Product image';img.decoding='async';img.loading=index===0?'eager':'lazy';if(index===0)img.fetchPriority='high';img.addEventListener('error',()=>{const state=document.createElement('div');state.className='image-failed';state.textContent='Image temporarily unavailable';const retry=document.createElement('button');retry.type='button';retry.textContent='Retry image';retry.onclick=()=>{media.replaceChildren();img.src=`${proxiedImage(raw)}&retry=${Date.now()}`;media.appendChild(img)};state.appendChild(document.createElement('br'));state.appendChild(retry);media.replaceChildren(state)});media.appendChild(img)}
+function addProducts(products){if(!Array.isArray(products)||!products.length)return;const grid=document.createElement('div');grid.className='product-grid';products.slice(0,3).forEach((p,index)=>{const card=document.createElement('article');card.className='product-card';const media=document.createElement('div');media.className='product-media';renderImage(media,p,index);const copy=document.createElement('div');copy.className='product-copy';const name=document.createElement('div');name.className='product-name';name.textContent=text(p.name)||'Product';const meta=document.createElement('div');meta.className='product-meta';const price=Number.isFinite(Number(p.price))?`${Number(p.price).toFixed(3)} OMR`:'Price not confirmed';const stock=p.availability==='in_stock'?'In stock':p.availability==='out_of_stock'?'Out of stock':'Stock not confirmed';meta.textContent=`${text(p.category)}\n${price}\n${stock}`;const desc=document.createElement('div');desc.className='product-desc';desc.textContent=text(p.description);copy.append(name,meta);if(desc.textContent)copy.appendChild(desc);card.append(media,copy);grid.appendChild(card)});chatBody.appendChild(grid);scrollBottom()}
+function addCategories(categories){if(!Array.isArray(categories)||!categories.length)return;const wrap=document.createElement('div');wrap.className='category-actions';[...new Set(categories)].forEach(category=>{const b=document.createElement('button');b.type='button';b.className='category-btn';b.textContent=category;b.onclick=()=>{activeCategory=category;localStorage.setItem('zapChatActiveCategory',category);sendMessage(`Show me ${category}`,{action:'browse_category',category},true)};wrap.appendChild(b)});chatBody.appendChild(wrap);scrollBottom()}
+async function readResponse(r){const ct=r.headers.get('content-type')||'';if(ct.includes('application/json'))return r.json();const t=await r.text();try{return JSON.parse(t)}catch{return{output:t}}}
+function renderResponse(data){const msg=text(data?.output);if(msg)addMessage(msg,'bot');addCategories(data?.categories);addProducts(data?.products)}
+function resize(){input.style.height='auto';input.style.height=Math.min(input.scrollHeight,120)+'px'}
+async function sendMessage(prefilled=null,meta={},categoryClick=false){const message=text(prefilled??input.value);if(!message||sendButton.disabled)return;if(!configured()){addMessage('Chat gateway is not configured yet. Deploy the supplied Worker, then set GATEWAY_BASE_URL in this HTML.','bot','error');return}quickActions.style.display='none';addMessage(message,'user');input.value='';resize();sendButton.disabled=true;categoryClick?addSkeleton():addTyping();const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),15000);const started=performance.now();try{const response=await fetch(CHAT_API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({message,sessionId,browserUserId,activeCategory,...meta}),signal:controller.signal});const data=await readResponse(response);if(!response.ok)throw new Error(text(data?.output)||`HTTP ${response.status}`);removeTyping();removeSkeleton();renderResponse(data);console.info(`Zap Chat ${(performance.now()-started).toFixed(0)}ms`,data?.status)}catch(e){removeTyping();removeSkeleton();console.error('Zap Chat error',e);addMessage(e?.name==='AbortError'?'Zap Chat took too long to respond. Please try again.':(e?.message||'I could not connect to Zap Chat. Please try again.'),'bot','error')}finally{clearTimeout(timer);sendButton.disabled=false;input.focus()}}
+sendButton.onclick=()=>sendMessage();input.addEventListener('input',resize);input.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage()}});document.querySelectorAll('.quick-btn').forEach(b=>b.onclick=()=>sendMessage(b.dataset.message));
+</script>
+</body></html>
