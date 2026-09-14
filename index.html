@@ -82,21 +82,37 @@ function addSkeleton(){
 function removeSkeleton(){document.getElementById('skeletonGrid')?.remove()}
 
 function safeCatalogImageUrl(value){
-  if(typeof value!=='string'||!value.trim()) return '';
+  if(value==null) return '';
+
+  let raw=String(value).trim();
+  if(!raw) return '';
+
+  // Support protocol-relative catalog URLs, while keeping GitHub Pages HTTPS-safe.
+  if(raw.startsWith('//')) raw='https:'+raw;
+
   try{
-    const url=new URL(value.trim());
-    return url.protocol==='https:'?url.href:'';
-  }catch{return ''}
+    const url=new URL(raw);
+    if(url.protocol!=='https:') return '';
+    return url.href;
+  }catch{
+    return '';
+  }
 }
 
 function renderImage(media,product,index){
   const raw=safeCatalogImageUrl(product?.image_url??product?.imageUrl??product?.image??'');
+  console.info('Zap Chat product image diagnostic',{
+    id:product?.id,
+    name:product?.name,
+    backend_image_url:product?.image_url,
+    normalized_image_url:raw
+  });
 
   // This state means the database/API truly supplied no usable URL.
   if(!raw){
     const missing=document.createElement('div');
     missing.className='image-missing';
-    missing.textContent='No product image in catalog';
+    missing.textContent='No image URL returned by n8n';
     media.appendChild(missing);
     return;
   }
