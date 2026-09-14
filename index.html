@@ -4,263 +4,2331 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="theme-color" content="#111827" />
+
 <title>Zap Chat</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}:root{--bg:#d9b463;--panel:#fff;--text:#111827;--muted:#667085;--border:#e5e7eb;--brand:#0f1d35;--bot:#f8fafc;--danger:#b42318;--skeleton:#e9edf2}body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;background:var(--bg);color:var(--text);display:grid;place-items:center;padding:14px}.chat-shell{width:min(100%,860px);height:min(90vh,800px);min-height:560px;background:var(--bg);border:1px solid rgba(255,255,255,.9);border-radius:22px;overflow:hidden;box-shadow:0 18px 55px rgba(17,24,39,.12);display:grid;grid-template-rows:auto 1fr auto}.chat-header{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.75)}.logo{width:42px;height:42px;border-radius:13px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px}.header-copy h1{font-size:18px}.status{margin-top:3px;color:var(--muted);font-size:12px;display:flex;gap:6px;align-items:center}.status-dot{width:7px;height:7px;border-radius:50%;background:#22c55e}.chat-body{overflow-y:auto;padding:18px 18px 14px;scroll-behavior:smooth}.message-row{display:flex;margin-bottom:12px}.message-row.user{justify-content:flex-end}.bubble{max-width:min(78%,620px);padding:11px 13px;border-radius:15px;font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.bot .bubble{background:var(--bot);border-bottom-left-radius:5px}.user .bubble{background:var(--brand);color:#fff;border-bottom-right-radius:5px}.error .bubble{color:var(--danger);background:#fef3f2}.quick-actions,.category-actions{display:flex;flex-wrap:wrap;gap:7px;margin:5px 0 16px}.quick-btn,.category-btn{border:1px solid var(--border);background:#fff;color:var(--text);padding:8px 11px;border-radius:999px;cursor:pointer;font:inherit;font-size:12px}.quick-btn:hover,.category-btn:hover{background:#f9fafb}.product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:7px 0 16px}.product-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;min-width:0}.product-media{height:190px;background:#f8fafc;display:grid;place-items:center;overflow:hidden}.product-image{width:100%;height:100%;object-fit:contain;background:#fff}.image-missing,.image-failed{padding:14px;text-align:center;font-size:11px;color:var(--muted)}.image-failed button{margin-top:8px;border:1px solid var(--border);background:#fff;border-radius:8px;padding:5px 8px;cursor:pointer}.product-copy{padding:10px}.product-name{font-weight:750;font-size:13px;line-height:1.35;margin-bottom:5px;cursor:pointer}.product-name:hover{text-decoration:underline}.product-meta,.product-desc{font-size:11px;line-height:1.45;color:#475467}.product-desc{margin-top:5px}.typing{display:inline-flex;gap:5px;align-items:center;min-width:48px}.typing span{width:7px;height:7px;border-radius:50%;background:#98a2b3;animation:bounce 1.1s infinite ease-in-out}.typing span:nth-child(2){animation-delay:.14s}.typing span:nth-child(3){animation-delay:.28s}@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}.skeleton-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:7px 0 16px}.skeleton-card{height:290px;border-radius:14px;background:linear-gradient(90deg,#eef1f4 25%,#f7f8fa 37%,#eef1f4 63%);background-size:400% 100%;animation:shimmer 1.2s infinite}@keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}.composer{border-top:1px solid rgba(255,255,255,.75);padding:10px}.composer-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end;background:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.9);border-radius:14px;padding:7px}textarea{width:100%;resize:none;border:0;outline:0;background:transparent;padding:8px 9px;min-height:40px;max-height:120px;font:inherit;font-size:14px}.send-btn{width:42px;height:42px;border:0;border-radius:11px;background:var(--brand);color:#fff;cursor:pointer;font-size:17px}.send-btn:disabled{opacity:.45;cursor:not-allowed}.helper{text-align:center;color:var(--muted);font-size:9px;margin-top:5px}@media(max-width:700px){body{padding:0}.chat-shell{width:100%;height:100dvh;min-height:100dvh;border:0;border-radius:0}.product-grid,.skeleton-grid{grid-template-columns:1fr}.product-media{height:230px}.bubble{max-width:90%}}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #d9b463;
+  --panel: #ffffff;
+  --text: #111827;
+  --muted: #667085;
+  --border: #e5e7eb;
+  --brand: #0f1d35;
+  --bot: #f8fafc;
+  --danger: #b42318;
+  --success: #15803d;
+}
+
+body {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+    BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--text);
+
+  display: grid;
+  place-items: center;
+
+  padding: 14px;
+}
+
+/* =========================
+   CHAT CONTAINER
+========================= */
+
+.chat-shell {
+  width: min(100%, 860px);
+  height: min(90vh, 800px);
+  min-height: 560px;
+
+  background: var(--bg);
+
+  border: 1px solid rgba(255,255,255,.9);
+  border-radius: 22px;
+
+  overflow: hidden;
+
+  box-shadow: 0 18px 55px rgba(17,24,39,.12);
+
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.chat-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 14px 18px;
+
+  border-bottom: 1px solid rgba(255,255,255,.75);
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+
+  border-radius: 13px;
+
+  background: var(--brand);
+  color: white;
+
+  display: grid;
+  place-items: center;
+
+  font-weight: 800;
+  font-size: 20px;
+}
+
+.header-copy h1 {
+  font-size: 18px;
+}
+
+.status {
+  margin-top: 3px;
+
+  color: var(--muted);
+  font-size: 12px;
+
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #22c55e;
+}
+
+/* =========================
+   CHAT BODY
+========================= */
+
+.chat-body {
+  overflow-y: auto;
+
+  padding: 18px 18px 14px;
+
+  scroll-behavior: smooth;
+}
+
+.message-row {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.message-row.user {
+  justify-content: flex-end;
+}
+
+.bubble {
+  max-width: min(78%, 620px);
+
+  padding: 11px 13px;
+
+  border-radius: 15px;
+
+  font-size: 14px;
+  line-height: 1.5;
+
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.bot .bubble {
+  background: var(--bot);
+  border-bottom-left-radius: 5px;
+}
+
+.user .bubble {
+  background: var(--brand);
+  color: white;
+
+  border-bottom-right-radius: 5px;
+}
+
+.error .bubble {
+  color: var(--danger);
+  background: #fef3f2;
+}
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.quick-actions,
+.category-actions {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin: 5px 0 16px;
+}
+
+.quick-btn,
+.category-btn,
+.compare-btn {
+  border: 1px solid var(--border);
+
+  background: white;
+  color: var(--text);
+
+  padding: 8px 11px;
+
+  border-radius: 999px;
+
+  cursor: pointer;
+
+  font: inherit;
+  font-size: 12px;
+}
+
+.quick-btn:hover,
+.category-btn:hover,
+.compare-btn:hover {
+  background: #f9fafb;
+}
+
+/* =========================
+   PRODUCT GRID
+========================= */
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 10px;
+
+  margin: 7px 0 10px;
+}
+
+.product-card {
+  background: white;
+
+  border: 1px solid var(--border);
+  border-radius: 14px;
+
+  overflow: hidden;
+  min-width: 0;
+}
+
+/* IMPORTANT:
+   prevents product image cropping
+*/
+
+.product-media {
+  aspect-ratio: 1 / 1;
+
+  width: 100%;
+
+  background: #ffffff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px;
+
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+
+  object-fit: contain;
+  object-position: center;
+
+  display: block;
+}
+
+.image-missing,
+.image-failed {
+  padding: 14px;
+
+  text-align: center;
+
+  font-size: 11px;
+
+  color: var(--muted);
+}
+
+.image-failed button {
+  margin-top: 8px;
+
+  border: 1px solid var(--border);
+
+  background: white;
+
+  border-radius: 8px;
+
+  padding: 5px 8px;
+
+  cursor: pointer;
+}
+
+/* =========================
+   PRODUCT TEXT
+========================= */
+
+.product-copy {
+  padding: 10px;
+}
+
+.product-name {
+  font-weight: 750;
+  font-size: 13px;
+
+  line-height: 1.35;
+
+  margin-bottom: 5px;
+
+  cursor: pointer;
+}
+
+.product-name:hover {
+  text-decoration: underline;
+}
+
+.product-brand {
+  color: var(--muted);
+
+  font-size: 11px;
+
+  margin-bottom: 4px;
+}
+
+.product-price {
+  font-size: 14px;
+  font-weight: 800;
+
+  margin: 5px 0;
+}
+
+.product-stock {
+  display: inline-block;
+
+  margin-bottom: 5px;
+
+  padding: 3px 7px;
+
+  border-radius: 999px;
+
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.product-stock.in-stock {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.product-stock.out-stock {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.product-meta,
+.product-desc {
+  font-size: 11px;
+
+  line-height: 1.45;
+
+  color: #475467;
+}
+
+.product-desc {
+  margin-top: 6px;
+}
+
+/* =========================
+   PRODUCT SPECS
+========================= */
+
+.product-specs {
+  margin-top: 8px;
+
+  display: grid;
+
+  gap: 4px;
+}
+
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+
+  gap: 8px;
+
+  font-size: 10px;
+
+  padding-bottom: 3px;
+
+  border-bottom: 1px solid #f1f3f5;
+}
+
+.spec-label {
+  color: var(--muted);
+}
+
+.spec-value {
+  text-align: right;
+  font-weight: 600;
+}
+
+/* =========================
+   COMPARE BUTTON
+========================= */
+
+.compare-wrapper {
+  margin: 0 0 16px;
+}
+
+/* =========================
+   COMPARISON TABLE
+========================= */
+
+.comparison-wrapper {
+  width: 100%;
+
+  overflow-x: auto;
+
+  margin: 7px 0 16px;
+
+  background: white;
+
+  border: 1px solid var(--border);
+  border-radius: 14px;
+}
+
+.comparison-table {
+  width: 100%;
+
+  min-width: 680px;
+
+  border-collapse: collapse;
+
+  font-size: 12px;
+}
+
+.comparison-table th,
+.comparison-table td {
+  padding: 10px;
+
+  border-bottom: 1px solid var(--border);
+
+  text-align: left;
+  vertical-align: top;
+}
+
+.comparison-table th {
+  background: #f8fafc;
+
+  font-weight: 750;
+}
+
+.comparison-title {
+  font-weight: 700;
+
+  min-width: 160px;
+}
+
+/* =========================
+   TYPING
+========================= */
+
+.typing {
+  display: inline-flex;
+
+  gap: 5px;
+
+  align-items: center;
+
+  min-width: 48px;
+}
+
+.typing span {
+  width: 7px;
+  height: 7px;
+
+  border-radius: 50%;
+
+  background: #98a2b3;
+
+  animation: bounce 1.1s infinite ease-in-out;
+}
+
+.typing span:nth-child(2) {
+  animation-delay: .14s;
+}
+
+.typing span:nth-child(3) {
+  animation-delay: .28s;
+}
+
+@keyframes bounce {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: .5;
+  }
+
+  30% {
+    transform: translateY(-4px);
+    opacity: 1;
+  }
+}
+
+/* =========================
+   SKELETON
+========================= */
+
+.skeleton-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 10px;
+
+  margin: 7px 0 16px;
+}
+
+.skeleton-card {
+  height: 290px;
+
+  border-radius: 14px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #eef1f4 25%,
+      #f7f8fa 37%,
+      #eef1f4 63%
+    );
+
+  background-size: 400% 100%;
+
+  animation: shimmer 1.2s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+/* =========================
+   MESSAGE COMPOSER
+========================= */
+
+.composer {
+  border-top: 1px solid rgba(255,255,255,.75);
+
+  padding: 10px;
+}
+
+.composer-row {
+  display: grid;
+
+  grid-template-columns: 1fr auto;
+
+  gap: 8px;
+
+  align-items: end;
+
+  background: rgba(255,255,255,.45);
+
+  border: 1px solid rgba(255,255,255,.9);
+
+  border-radius: 14px;
+
+  padding: 7px;
+}
+
+textarea {
+  width: 100%;
+
+  resize: none;
+
+  border: 0;
+  outline: 0;
+
+  background: transparent;
+
+  padding: 8px 9px;
+
+  min-height: 40px;
+  max-height: 120px;
+
+  font: inherit;
+  font-size: 14px;
+}
+
+.send-btn {
+  width: 42px;
+  height: 42px;
+
+  border: 0;
+
+  border-radius: 11px;
+
+  background: var(--brand);
+  color: white;
+
+  cursor: pointer;
+
+  font-size: 17px;
+}
+
+.send-btn:disabled {
+  opacity: .45;
+  cursor: not-allowed;
+}
+
+.helper {
+  text-align: center;
+
+  color: var(--muted);
+
+  font-size: 9px;
+
+  margin-top: 5px;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+  body {
+    padding: 0;
+  }
+
+  .chat-shell {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+
+    border: 0;
+    border-radius: 0;
+  }
+
+  .product-grid,
+  .skeleton-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .product-media {
+    aspect-ratio: 4 / 3;
+  }
+
+  .bubble {
+    max-width: 90%;
+  }
+}
 </style>
 </head>
+
 <body>
+
 <main class="chat-shell">
-<header class="chat-header"><div class="logo">Z</div><div class="header-copy"><h1>ZAP CHAT</h1><div class="status"><span class="status-dot"></span>AI product assistant</div></div></header>
-<section id="chatBody" class="chat-body" aria-live="polite"><div class="message-row bot"><div class="bubble">Hi! I can help you discover products, compare options, check prices and availability, or browse by category.</div></div><div class="quick-actions" id="quickActions"><button class="quick-btn" data-message="What products are available?">Browse categories</button><button class="quick-btn" data-message="Show me smartphones under 100 OMR">Phones under 100 OMR</button><button class="quick-btn" data-message="Recommend a good power bank">Recommend a power bank</button></div></section>
-<footer class="composer"><div class="composer-row"><textarea id="messageInput" rows="1" maxlength="1200" placeholder="Ask Zap Chat..." aria-label="Message"></textarea><button id="sendButton" class="send-btn" type="button" aria-label="Send">➤</button></div><div class="helper">Powered by Zap Chat AI</div></footer>
+
+<header class="chat-header">
+
+  <div class="logo">Z</div>
+
+  <div class="header-copy">
+
+    <h1>ZAP CHAT</h1>
+
+    <div class="status">
+      <span class="status-dot"></span>
+      AI product assistant
+    </div>
+
+  </div>
+
+</header>
+
+
+<section
+  id="chatBody"
+  class="chat-body"
+  aria-live="polite"
+>
+
+  <div class="message-row bot">
+
+    <div class="bubble">
+      Hi! I can help you discover products, compare options,
+      check prices and availability, or browse by category.
+    </div>
+
+  </div>
+
+
+  <div class="quick-actions" id="quickActions">
+
+    <button
+      class="quick-btn"
+      data-message="What products are available?"
+    >
+      Browse categories
+    </button>
+
+    <button
+      class="quick-btn"
+      data-message="Show me smartphones under 100 OMR"
+    >
+      Phones under 100 OMR
+    </button>
+
+    <button
+      class="quick-btn"
+      data-message="Recommend a good power bank"
+    >
+      Recommend a power bank
+    </button>
+
+  </div>
+
+</section>
+
+
+<footer class="composer">
+
+  <div class="composer-row">
+
+    <textarea
+      id="messageInput"
+      rows="1"
+      maxlength="1200"
+      placeholder="Ask Zap Chat..."
+      aria-label="Message"
+    ></textarea>
+
+    <button
+      id="sendButton"
+      class="send-btn"
+      type="button"
+      aria-label="Send"
+    >
+      ➤
+    </button>
+
+  </div>
+
+  <div class="helper">
+    Powered by Zap Chat AI
+  </div>
+
+</footer>
+
 </main>
+
+
 <script>
-const CHAT_API_URL= "https://zapsoole.app.n8n.cloud/webhook/zap-chat-search-v6";
 
-const chatBody=document.getElementById('chatBody');
-const input=document.getElementById('messageInput');
-const sendButton=document.getElementById('sendButton');
-const quickActions=document.getElementById('quickActions');
+/* =========================================================
+   N8N BACKEND
+========================================================= */
 
-const text=(v)=>typeof v==='string'?v.trim():'';
+const CHAT_API_URL =
+  "https://zapsoole.app.n8n.cloud/webhook/zap-chat-search-v6";
 
-let sessionId=localStorage.getItem('zapChatSessionId');
-if(!sessionId){
-  sessionId=crypto.randomUUID
-    ? crypto.randomUUID()
-    : `session-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  localStorage.setItem('zapChatSessionId',sessionId);
+
+/* =========================================================
+   DOM
+========================================================= */
+
+const chatBody =
+  document.getElementById("chatBody");
+
+const input =
+  document.getElementById("messageInput");
+
+const sendButton =
+  document.getElementById("sendButton");
+
+const quickActions =
+  document.getElementById("quickActions");
+
+
+const text = (value) =>
+  typeof value === "string"
+    ? value.trim()
+    : "";
+
+
+/* =========================================================
+   SESSION ID
+========================================================= */
+
+let sessionId =
+  localStorage.getItem("zapChatSessionId");
+
+if (!sessionId) {
+
+  sessionId =
+    crypto.randomUUID
+      ? crypto.randomUUID()
+      : `session-${Date.now()}-${Math.random()
+          .toString(36)
+          .slice(2)}`;
+
+  localStorage.setItem(
+    "zapChatSessionId",
+    sessionId
+  );
 }
 
-let browserUserId=localStorage.getItem('zapChatBrowserUserId');
-if(!browserUserId){
-  browserUserId=crypto.randomUUID
-    ? crypto.randomUUID()
-    : `browser-${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  localStorage.setItem('zapChatBrowserUserId',browserUserId);
+
+/* =========================================================
+   BROWSER USER ID
+========================================================= */
+
+let browserUserId =
+  localStorage.getItem("zapChatBrowserUserId");
+
+if (!browserUserId) {
+
+  browserUserId =
+    crypto.randomUUID
+      ? crypto.randomUUID()
+      : `browser-${Date.now()}-${Math.random()
+          .toString(36)
+          .slice(2)}`;
+
+  localStorage.setItem(
+    "zapChatBrowserUserId",
+    browserUserId
+  );
 }
 
-let activeCategory=localStorage.getItem('zapChatActiveCategory')||'';
-let lastProducts=[];
-try{
-  const saved=JSON.parse(localStorage.getItem('zapChatLastProducts')||'[]');
-  if(Array.isArray(saved)) lastProducts=saved.slice(0,3);
-}catch{}
 
-function scrollBottom(){chatBody.scrollTop=chatBody.scrollHeight}
-function resize(){input.style.height='auto';input.style.height=Math.min(input.scrollHeight,120)+'px'}
+/* =========================================================
+   SESSION PRODUCT CONTEXT
+========================================================= */
 
-function addMessage(message,sender='bot',cls=''){
-  const row=document.createElement('div');
-  row.className=`message-row ${sender} ${cls}`.trim();
-  const bubble=document.createElement('div');
-  bubble.className='bubble';
-  bubble.textContent=message;
+let activeCategory =
+  localStorage.getItem(
+    "zapChatActiveCategory"
+  ) || "";
+
+
+let lastProducts = [];
+
+try {
+
+  const saved =
+    JSON.parse(
+      localStorage.getItem(
+        "zapChatLastProducts"
+      ) || "[]"
+    );
+
+  if (Array.isArray(saved)) {
+
+    lastProducts =
+      saved.slice(0, 3);
+
+  }
+
+} catch {}
+
+
+/* =========================================================
+   BASIC UI HELPERS
+========================================================= */
+
+function scrollBottom() {
+
+  chatBody.scrollTop =
+    chatBody.scrollHeight;
+
+}
+
+
+function resize() {
+
+  input.style.height = "auto";
+
+  input.style.height =
+    Math.min(
+      input.scrollHeight,
+      120
+    ) + "px";
+
+}
+
+
+/* =========================================================
+   ADD MESSAGE
+========================================================= */
+
+function addMessage(
+  message,
+  sender = "bot",
+  cls = ""
+) {
+
+  const row =
+    document.createElement("div");
+
+  row.className =
+    `message-row ${sender} ${cls}`.trim();
+
+
+  const bubble =
+    document.createElement("div");
+
+  bubble.className = "bubble";
+
+  bubble.textContent = message;
+
+
   row.appendChild(bubble);
+
   chatBody.appendChild(row);
+
   scrollBottom();
+
   return row;
 }
 
-function addTyping(){
+
+/* =========================================================
+   TYPING
+========================================================= */
+
+function addTyping() {
+
   removeTyping();
-  const row=document.createElement('div');
-  row.id='typingRow';row.className='message-row bot';
-  const bubble=document.createElement('div');bubble.className='bubble';
-  bubble.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
-  row.appendChild(bubble);chatBody.appendChild(row);scrollBottom();
-}
-function removeTyping(){document.getElementById('typingRow')?.remove()}
 
-function addSkeleton(){
+
+  const row =
+    document.createElement("div");
+
+  row.id = "typingRow";
+
+  row.className =
+    "message-row bot";
+
+
+  const bubble =
+    document.createElement("div");
+
+  bubble.className = "bubble";
+
+
+  bubble.innerHTML = `
+    <div class="typing">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  `;
+
+
+  row.appendChild(bubble);
+
+  chatBody.appendChild(row);
+
+  scrollBottom();
+}
+
+
+function removeTyping() {
+
+  document
+    .getElementById("typingRow")
+    ?.remove();
+
+}
+
+
+/* =========================================================
+   SKELETON
+========================================================= */
+
+function addSkeleton() {
+
   removeSkeleton();
-  const grid=document.createElement('div');grid.id='skeletonGrid';grid.className='skeleton-grid';
-  for(let i=0;i<3;i++){const card=document.createElement('div');card.className='skeleton-card';grid.appendChild(card)}
-  chatBody.appendChild(grid);scrollBottom();
+
+
+  const grid =
+    document.createElement("div");
+
+  grid.id = "skeletonGrid";
+
+  grid.className =
+    "skeleton-grid";
+
+
+  for (let i = 0; i < 3; i++) {
+
+    const card =
+      document.createElement("div");
+
+    card.className =
+      "skeleton-card";
+
+    grid.appendChild(card);
+
+  }
+
+
+  chatBody.appendChild(grid);
+
+  scrollBottom();
 }
-function removeSkeleton(){document.getElementById('skeletonGrid')?.remove()}
 
-function safeCatalogImageUrl(value){
-  if(value==null) return '';
 
-  let raw=String(value).trim();
-  if(!raw) return '';
+function removeSkeleton() {
 
-  // Support protocol-relative catalog URLs, while keeping GitHub Pages HTTPS-safe.
-  if(raw.startsWith('//')) raw='https:'+raw;
+  document
+    .getElementById("skeletonGrid")
+    ?.remove();
 
-  try{
-    const url=new URL(raw);
-    if(url.protocol!=='https:') return '';
+}
+
+
+/* =========================================================
+   SAFE IMAGE URL
+========================================================= */
+
+function safeCatalogImageUrl(value) {
+
+  if (value == null)
+    return "";
+
+
+  let raw =
+    String(value).trim();
+
+
+  if (!raw)
+    return "";
+
+
+  if (raw.startsWith("//"))
+    raw = "https:" + raw;
+
+
+  try {
+
+    const url =
+      new URL(raw);
+
+
+    if (url.protocol !== "https:")
+      return "";
+
+
     return url.href;
-  }catch{
-    return '';
+
+  } catch {
+
+    return "";
+
   }
 }
 
-function renderImage(media,product,index){
-  const raw=safeCatalogImageUrl(product?.image_url??product?.imageUrl??product?.image??'');
-  console.info('Zap Chat product image diagnostic',{
-    id:product?.id,
-    name:product?.name,
-    backend_image_url:product?.image_url,
-    normalized_image_url:raw
-  });
 
-  // This state means the database/API truly supplied no usable URL.
-  if(!raw){
-    const missing=document.createElement('div');
-    missing.className='image-missing';
-    missing.textContent='No image URL returned by n8n';
+/* =========================================================
+   PRODUCT IMAGE
+========================================================= */
+
+function renderImage(
+  media,
+  product,
+  index
+) {
+
+  const raw =
+    safeCatalogImageUrl(
+      product?.image?.url ??
+      product?.image_url ??
+      product?.imageUrl ??
+      ""
+    );
+
+
+  if (!raw) {
+
+    const missing =
+      document.createElement("div");
+
+    missing.className =
+      "image-missing";
+
+    missing.textContent =
+      "No product image available";
+
     media.appendChild(missing);
+
     return;
   }
 
-  const img=document.createElement('img');
-  img.className='product-image';
-  img.src=raw;
-  img.alt=text(product?.name)||'Product image';
-  img.decoding='async';
-  img.loading=index===0?'eager':'lazy';
-  if(index===0) img.fetchPriority='high';
 
-  // Do not set crossorigin: normal <img> embedding is the most compatible
-  // mode for third-party catalog CDNs. We do not read pixels/canvas data.
-  img.addEventListener('error',()=>{
-    console.error('Product image URL exists but failed to load:',{
-      product:text(product?.name),image_url:raw
-    });
-    const failed=document.createElement('div');
-    failed.className='image-failed';
-    failed.textContent='Product image could not be loaded';
-    const link=document.createElement('button');
-    link.type='button';link.textContent='Open image';
-    link.addEventListener('click',()=>window.open(raw,'_blank','noopener,noreferrer'));
-    failed.appendChild(document.createElement('br'));
-    failed.appendChild(link);
-    media.replaceChildren(failed);
-  });
+  const img =
+    document.createElement("img");
+
+
+  img.className =
+    "product-image";
+
+  img.src = raw;
+
+  img.alt =
+    text(
+      product?.title ??
+      product?.name
+    ) ||
+    "Product image";
+
+
+  img.decoding = "async";
+
+  img.loading =
+    index === 0
+      ? "eager"
+      : "lazy";
+
+
+  if (index === 0) {
+
+    img.fetchPriority =
+      "high";
+
+  }
+
+
+  img.addEventListener(
+    "error",
+    () => {
+
+      console.error(
+        "Product image failed:",
+        raw
+      );
+
+
+      const failed =
+        document.createElement("div");
+
+      failed.className =
+        "image-failed";
+
+      failed.textContent =
+        "Product image could not be loaded";
+
+
+      const button =
+        document.createElement("button");
+
+      button.type =
+        "button";
+
+      button.textContent =
+        "Open image";
+
+
+      button.addEventListener(
+        "click",
+        () =>
+          window.open(
+            raw,
+            "_blank",
+            "noopener,noreferrer"
+          )
+      );
+
+
+      failed.appendChild(
+        document.createElement("br")
+      );
+
+      failed.appendChild(button);
+
+
+      media.replaceChildren(
+        failed
+      );
+
+    }
+  );
+
 
   media.appendChild(img);
 }
 
-function rememberProducts(products){
-  if(!Array.isArray(products)||!products.length) return;
-  lastProducts=products.slice(0,3).map(p=>({
-    id:String(p?.id??'').slice(0,128),
-    name:text(p?.name).slice(0,160),
-    category:text(p?.category).slice(0,120)
-  })).filter(p=>p.id||p.name);
-  localStorage.setItem('zapChatLastProducts',JSON.stringify(lastProducts));
+
+/* =========================================================
+   REMEMBER PRODUCT LIST
+========================================================= */
+
+function rememberProducts(products) {
+
+  if (
+    !Array.isArray(products) ||
+    !products.length
+  )
+    return;
+
+
+  lastProducts =
+    products
+      .slice(0, 3)
+      .map(product => ({
+
+        id:
+          String(
+            product?.id ?? ""
+          ).slice(0, 128),
+
+        name:
+          text(
+            product?.title ??
+            product?.name
+          ).slice(0, 180),
+
+        category:
+          text(
+            product?.category
+          ).slice(0, 120)
+
+      }))
+      .filter(
+        product =>
+          product.id ||
+          product.name
+      );
+
+
+  localStorage.setItem(
+    "zapChatLastProducts",
+    JSON.stringify(lastProducts)
+  );
 }
 
-function addProducts(products){
-  if(!Array.isArray(products)||!products.length) return;
-  rememberProducts(products);
 
-  const grid=document.createElement('div');grid.className='product-grid';
-  products.slice(0,3).forEach((product,index)=>{
-    const card=document.createElement('article');card.className='product-card';
-    const media=document.createElement('div');media.className='product-media';
-    renderImage(media,product,index);
+/* =========================================================
+   FORMAT PRICE
+========================================================= */
 
-    const copy=document.createElement('div');copy.className='product-copy';
-    const name=document.createElement('div');name.className='product-name';
-    name.textContent=text(product?.name)||'Product';
-    name.title='Click to ask about this product';
-    name.setAttribute('role','button');name.tabIndex=0;
-    const selectProduct=()=>sendMessage(name.textContent,{action:'product_details',productId:String(product?.id??'')},true);
-    name.addEventListener('click',selectProduct);
-    name.addEventListener('keydown',(event)=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();selectProduct()}});
+function getProductPrice(product) {
 
-    const meta=document.createElement('div');meta.className='product-meta';
-    const numericPrice=Number(product?.price);
-    const price=Number.isFinite(numericPrice)?`${numericPrice.toFixed(3)} OMR`:'Price not confirmed';
-    const stock=product?.availability==='in_stock'?'In stock':product?.availability==='out_of_stock'?'Out of stock':'Stock not confirmed';
-    meta.textContent=`${text(product?.category)}\n${price}\n${stock}`;
+  const formatted =
+    text(
+      product?.price?.formatted
+    );
 
-    const description=document.createElement('div');description.className='product-desc';
-    description.textContent=text(product?.description);
-    copy.append(name,meta);if(description.textContent) copy.appendChild(description);
-    card.append(media,copy);grid.appendChild(card);
-  });
-  chatBody.appendChild(grid);scrollBottom();
+
+  if (formatted)
+    return formatted;
+
+
+  const amount =
+    Number(
+      product?.price?.amount ??
+      product?.price
+    );
+
+
+  if (
+    Number.isFinite(amount)
+  ) {
+
+    return `OMR ${amount.toFixed(3)}`;
+
+  }
+
+
+  return "Price not confirmed";
 }
 
-function addCategories(categories){
-  if(!Array.isArray(categories)||!categories.length) return;
-  const wrapper=document.createElement('div');wrapper.className='category-actions';
-  [...new Set(categories.map(text).filter(Boolean))].forEach(category=>{
-    const button=document.createElement('button');button.type='button';button.className='category-btn';button.textContent=category;
-    button.addEventListener('click',()=>{
-      activeCategory=category;localStorage.setItem('zapChatActiveCategory',category);
-      sendMessage(`Show me ${category}`,{action:'browse_category',category},true);
-    });
+
+/* =========================================================
+   FORMAT STOCK
+========================================================= */
+
+function getStock(product) {
+
+  const status =
+    product?.stock?.status ??
+    product?.availability;
+
+
+  const label =
+    text(
+      product?.stock?.label
+    );
+
+
+  if (label) {
+
+    return {
+      status,
+      label
+    };
+
+  }
+
+
+  if (status === "in_stock") {
+
+    return {
+      status,
+      label: "In Stock"
+    };
+
+  }
+
+
+  if (status === "out_of_stock") {
+
+    return {
+      status,
+      label: "Out of Stock"
+    };
+
+  }
+
+
+  return {
+    status: "unknown",
+    label: "Stock not confirmed"
+  };
+}
+
+
+/* =========================================================
+   PRODUCT CARDS
+========================================================= */
+
+function addProducts(
+  products,
+  remember = true
+) {
+
+  if (
+    !Array.isArray(products) ||
+    !products.length
+  )
+    return;
+
+
+  if (remember) {
+
+    rememberProducts(products);
+
+  }
+
+
+  const grid =
+    document.createElement("div");
+
+  grid.className =
+    "product-grid";
+
+
+  products
+    .slice(0, 3)
+    .forEach(
+      (product, index) => {
+
+
+        const card =
+          document.createElement("article");
+
+        card.className =
+          "product-card";
+
+
+        /* IMAGE */
+
+        const media =
+          document.createElement("div");
+
+        media.className =
+          "product-media";
+
+
+        renderImage(
+          media,
+          product,
+          index
+        );
+
+
+        /* COPY */
+
+        const copy =
+          document.createElement("div");
+
+        copy.className =
+          "product-copy";
+
+
+        /* PRODUCT NAME */
+
+        const name =
+          document.createElement("div");
+
+        name.className =
+          "product-name";
+
+
+        name.textContent =
+          text(
+            product?.title ??
+            product?.name
+          ) ||
+          "Product";
+
+
+        name.title =
+          "View product details";
+
+        name.setAttribute(
+          "role",
+          "button"
+        );
+
+        name.tabIndex = 0;
+
+
+        /*
+          IMPORTANT V6 FIX:
+          get_product_details
+        */
+
+        const selectProduct = () => {
+
+          sendMessage(
+
+            name.textContent,
+
+            {
+              action:
+                "get_product_details",
+
+              productId:
+                String(
+                  product?.id ?? ""
+                )
+            },
+
+            true
+
+          );
+
+        };
+
+
+        name.addEventListener(
+          "click",
+          selectProduct
+        );
+
+
+        name.addEventListener(
+          "keydown",
+          event => {
+
+            if (
+              event.key === "Enter" ||
+              event.key === " "
+            ) {
+
+              event.preventDefault();
+
+              selectProduct();
+
+            }
+
+          }
+        );
+
+
+        /* BRAND */
+
+        const brand =
+          document.createElement("div");
+
+        brand.className =
+          "product-brand";
+
+        brand.textContent =
+          text(product?.brand);
+
+
+        /* PRICE */
+
+        const price =
+          document.createElement("div");
+
+        price.className =
+          "product-price";
+
+        price.textContent =
+          getProductPrice(product);
+
+
+        /* STOCK */
+
+        const stock =
+          getStock(product);
+
+
+        const stockBadge =
+          document.createElement("div");
+
+        stockBadge.className =
+          "product-stock " +
+          (
+            stock.status ===
+            "in_stock"
+              ? "in-stock"
+              : "out-stock"
+          );
+
+
+        stockBadge.textContent =
+          stock.label;
+
+
+        /* CATEGORY */
+
+        const meta =
+          document.createElement("div");
+
+        meta.className =
+          "product-meta";
+
+        meta.textContent =
+          text(product?.category);
+
+
+        /* DESCRIPTION */
+
+        const description =
+          document.createElement("div");
+
+        description.className =
+          "product-desc";
+
+        description.textContent =
+          text(
+            product?.description
+          );
+
+
+        /* SPECS */
+
+        const specs =
+          document.createElement("div");
+
+        specs.className =
+          "product-specs";
+
+
+        const keySpecs =
+          Array.isArray(
+            product?.keySpecs
+          )
+            ? product.keySpecs
+            : [];
+
+
+        keySpecs
+          .slice(0, 4)
+          .forEach(spec => {
+
+            const row =
+              document.createElement("div");
+
+            row.className =
+              "spec-row";
+
+
+            const label =
+              document.createElement("span");
+
+            label.className =
+              "spec-label";
+
+            label.textContent =
+              text(spec?.label);
+
+
+            const value =
+              document.createElement("span");
+
+            value.className =
+              "spec-value";
+
+            value.textContent =
+              String(
+                spec?.value ?? ""
+              );
+
+
+            row.append(
+              label,
+              value
+            );
+
+
+            specs.appendChild(row);
+
+          });
+
+
+        copy.appendChild(name);
+
+
+        if (brand.textContent)
+          copy.appendChild(brand);
+
+
+        copy.appendChild(price);
+
+        copy.appendChild(
+          stockBadge
+        );
+
+
+        if (meta.textContent)
+          copy.appendChild(meta);
+
+
+        if (
+          description.textContent
+        )
+          copy.appendChild(
+            description
+          );
+
+
+        if (
+          keySpecs.length
+        )
+          copy.appendChild(specs);
+
+
+        card.append(
+          media,
+          copy
+        );
+
+
+        grid.appendChild(card);
+
+      }
+    );
+
+
+  chatBody.appendChild(grid);
+
+
+  /*
+    Compare button shown after
+    a product search with 2+
+    products.
+  */
+
+  if (
+    remember &&
+    lastProducts.length >= 2
+  ) {
+
+    const wrapper =
+      document.createElement("div");
+
+    wrapper.className =
+      "compare-wrapper";
+
+
+    const button =
+      document.createElement("button");
+
+    button.className =
+      "compare-btn";
+
+    button.type =
+      "button";
+
+    button.textContent =
+      "Compare these products";
+
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        sendMessage(
+
+          "Compare these products",
+
+          {
+            action:
+              "compare_products",
+
+            compareProductIds:
+              lastProducts
+                .map(p => p.id)
+                .filter(Boolean)
+          },
+
+          false
+
+        );
+
+      }
+    );
+
+
     wrapper.appendChild(button);
+
+    chatBody.appendChild(
+      wrapper
+    );
+
+  }
+
+
+  scrollBottom();
+}
+
+
+/* =========================================================
+   CATEGORY BUTTONS
+========================================================= */
+
+function addCategories(categories) {
+
+  if (
+    !Array.isArray(categories) ||
+    !categories.length
+  )
+    return;
+
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className =
+    "category-actions";
+
+
+  [
+    ...new Set(
+      categories
+        .map(text)
+        .filter(Boolean)
+    )
+  ].forEach(category => {
+
+
+    const button =
+      document.createElement("button");
+
+
+    button.type =
+      "button";
+
+    button.className =
+      "category-btn";
+
+    button.textContent =
+      category;
+
+
+    button.addEventListener(
+      "click",
+      () => {
+
+
+        activeCategory =
+          category;
+
+
+        localStorage.setItem(
+          "zapChatActiveCategory",
+          category
+        );
+
+
+        sendMessage(
+
+          `Show me ${category}`,
+
+          {
+            action:
+              "browse_category",
+
+            category
+          },
+
+          true
+        );
+
+      }
+    );
+
+
+    wrapper.appendChild(
+      button
+    );
+
   });
-  chatBody.appendChild(wrapper);scrollBottom();
+
+
+  chatBody.appendChild(
+    wrapper
+  );
+
+
+  scrollBottom();
 }
 
-async function readResponse(response){
-  const contentType=response.headers.get('content-type')||'';
-  if(contentType.includes('application/json')) return response.json();
-  const body=await response.text();
-  try{return JSON.parse(body)}catch{return{output:body}}
+
+/* =========================================================
+   COMPARISON TABLE
+========================================================= */
+
+function addComparison(comparison) {
+
+  if (
+    !comparison ||
+    !Array.isArray(
+      comparison.rows
+    ) ||
+    !comparison.rows.length
+  )
+    return;
+
+
+  const wrapper =
+    document.createElement("div");
+
+  wrapper.className =
+    "comparison-wrapper";
+
+
+  const table =
+    document.createElement("table");
+
+  table.className =
+    "comparison-table";
+
+
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>Product</th>
+        <th>Capacity</th>
+        <th>Wattage</th>
+        <th>Price</th>
+        <th>Rating</th>
+        <th>Stock</th>
+        <th>Key Features</th>
+      </tr>
+    </thead>
+  `;
+
+
+  const tbody =
+    document.createElement("tbody");
+
+
+  comparison.rows.forEach(
+    row => {
+
+
+      const tr =
+        document.createElement("tr");
+
+
+      const features =
+        Array.isArray(
+          row?.keyFeatures
+        )
+          ? row.keyFeatures.join(", ")
+          : "—";
+
+
+      const values = [
+
+        row?.title || "Product",
+
+        row?.capacity || "—",
+
+        row?.wattage || "—",
+
+        row?.price || "—",
+
+        row?.rating ?? "—",
+
+        row?.stock || "—",
+
+        features || "—"
+
+      ];
+
+
+      values.forEach(
+        (value, index) => {
+
+
+          const td =
+            document.createElement("td");
+
+
+          td.textContent =
+            String(value);
+
+
+          if (index === 0) {
+
+            td.className =
+              "comparison-title";
+
+          }
+
+
+          tr.appendChild(td);
+
+        }
+      );
+
+
+      tbody.appendChild(tr);
+
+    }
+  );
+
+
+  table.appendChild(tbody);
+
+  wrapper.appendChild(table);
+
+  chatBody.appendChild(
+    wrapper
+  );
+
+
+  scrollBottom();
 }
 
-function renderResponse(data){
-  const message=text(data?.output);
-  if(message) addMessage(message,'bot');
-  addCategories(data?.categories);
-  addProducts(data?.products);
-}
 
-async function sendMessage(prefilled=null,meta={},showCardsLoading=false){
-  const message=text(prefilled??input.value);
-  if(!message||sendButton.disabled) return;
+/* =========================================================
+   READ BACKEND RESPONSE
+========================================================= */
 
-  if(quickActions) quickActions.style.display='none';
-  addMessage(message,'user');input.value='';resize();sendButton.disabled=true;
-  showCardsLoading?addSkeleton():addTyping();
+async function readResponse(
+  response
+) {
 
-  const controller=new AbortController();
-  const timeout=setTimeout(()=>controller.abort(),12000);
-  const started=performance.now();
+  const contentType =
+    response.headers.get(
+      "content-type"
+    ) || "";
 
-  try{
-    const response=await fetch(CHAT_API_URL,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        message,
-        sessionId,
-        browserUserId,
-        activeCategory,
-        contextProducts:lastProducts,
-        source:'zap-chat-web',
-        ...meta
-      }),
-      signal:controller.signal
-    });
 
-    const data=await readResponse(response);
-    if(!response.ok) throw new Error(text(data?.output)||`HTTP ${response.status}`);
+  if (
+    contentType.includes(
+      "application/json"
+    )
+  ) {
 
-    removeTyping();removeSkeleton();renderResponse(data);
-    console.info(`Zap Chat response ${(performance.now()-started).toFixed(0)}ms`,data);
-  }catch(error){
-    removeTyping();removeSkeleton();
-    console.error('Zap Chat request failed:',error);
-    addMessage(error?.name==='AbortError'?'Zap Chat took too long to respond. Please try again.':'I could not connect to Zap Chat. Please try again.','bot','error');
-  }finally{
-    clearTimeout(timeout);sendButton.disabled=false;input.focus();
+    return response.json();
+
+  }
+
+
+  const body =
+    await response.text();
+
+
+  try {
+
+    return JSON.parse(body);
+
+  } catch {
+
+    return {
+      output: body
+    };
+
   }
 }
 
-sendButton.addEventListener('click',()=>sendMessage());
-input.addEventListener('input',resize);
-input.addEventListener('keydown',(event)=>{if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}});
-document.querySelectorAll('.quick-btn').forEach(button=>button.addEventListener('click',()=>sendMessage(button.dataset.message)));
+
+/* =========================================================
+   RENDER N8N RESPONSE
+========================================================= */
+
+function renderResponse(data) {
+
+  console.log(
+    "Zap Chat backend response:",
+    data
+  );
+
+
+  const message =
+    text(data?.output);
+
+
+  if (message) {
+
+    addMessage(
+      message,
+      "bot"
+    );
+
+  }
+
+
+  addCategories(
+    data?.categories
+  );
+
+
+  /*
+    Keep previous recommendation
+    context after opening one
+    product detail.
+  */
+
+  const shouldRememberProducts =
+    data?.responseType !==
+    "product_detail";
+
+
+  addProducts(
+    data?.products,
+    shouldRememberProducts
+  );
+
+
+  addComparison(
+    data?.comparison
+  );
+
+}
+
+
+/* =========================================================
+   SEND MESSAGE TO N8N
+========================================================= */
+
+async function sendMessage(
+  prefilled = null,
+  meta = {},
+  showCardsLoading = false
+) {
+
+  const message =
+    text(
+      prefilled ??
+      input.value
+    );
+
+
+  if (
+    !message ||
+    sendButton.disabled
+  )
+    return;
+
+
+  if (quickActions) {
+
+    quickActions.style.display =
+      "none";
+
+  }
+
+
+  addMessage(
+    message,
+    "user"
+  );
+
+
+  input.value = "";
+
+  resize();
+
+
+  sendButton.disabled =
+    true;
+
+
+  if (showCardsLoading) {
+
+    addSkeleton();
+
+  } else {
+
+    addTyping();
+
+  }
+
+
+  const controller =
+    new AbortController();
+
+
+  const timeout =
+    setTimeout(
+      () =>
+        controller.abort(),
+      15000
+    );
+
+
+  const started =
+    performance.now();
+
+
+  try {
+
+    const payload = {
+
+      message,
+
+      sessionId,
+
+      browserUserId,
+
+      activeCategory,
+
+      contextProducts:
+        lastProducts,
+
+      source:
+        "zap-chat-web",
+
+      ...meta
+
+    };
+
+
+    console.log(
+      "Sending to n8n:",
+      payload
+    );
+
+
+    const response =
+      await fetch(
+        CHAT_API_URL,
+        {
+
+          method: "POST",
+
+          mode: "cors",
+
+          headers: {
+
+            "Content-Type":
+              "application/json",
+
+            "Accept":
+              "application/json"
+
+          },
+
+          body:
+            JSON.stringify(
+              payload
+            ),
+
+          signal:
+            controller.signal
+
+        }
+      );
+
+
+    const data =
+      await readResponse(
+        response
+      );
+
+
+    console.log(
+      "n8n HTTP status:",
+      response.status
+    );
+
+
+    if (!response.ok) {
+
+      console.error(
+        "n8n backend error:",
+        data
+      );
+
+
+      throw new Error(
+        text(data?.output) ||
+        `HTTP ${response.status}`
+      );
+
+    }
+
+
+    removeTyping();
+
+    removeSkeleton();
+
+
+    renderResponse(data);
+
+
+    console.info(
+      `Zap Chat response ${
+        (
+          performance.now() -
+          started
+        ).toFixed(0)
+      }ms`
+    );
+
+  } catch (error) {
+
+    removeTyping();
+
+    removeSkeleton();
+
+
+    console.error(
+      "Zap Chat request failed:",
+      error
+    );
+
+
+    if (
+      error?.name ===
+      "AbortError"
+    ) {
+
+      addMessage(
+        "Zap Chat took too long to respond. Please try again.",
+        "bot",
+        "error"
+      );
+
+    } else {
+
+      addMessage(
+        `I could not connect to Zap Chat. ${
+          error?.message
+            ? error.message
+            : "Please try again."
+        }`,
+        "bot",
+        "error"
+      );
+
+    }
+
+  } finally {
+
+    clearTimeout(
+      timeout
+    );
+
+
+    sendButton.disabled =
+      false;
+
+
+    input.focus();
+
+  }
+}
+
+
+/* =========================================================
+   EVENTS
+========================================================= */
+
+sendButton.addEventListener(
+  "click",
+  () =>
+    sendMessage()
+);
+
+
+input.addEventListener(
+  "input",
+  resize
+);
+
+
+input.addEventListener(
+  "keydown",
+  event => {
+
+    if (
+      event.key === "Enter" &&
+      !event.shiftKey
+    ) {
+
+      event.preventDefault();
+
+      sendMessage();
+
+    }
+
+  }
+);
+
+
+document
+  .querySelectorAll(
+    ".quick-btn"
+  )
+  .forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () =>
+        sendMessage(
+          button.dataset.message
+        )
+    );
+
+  });
+
 </script>
-</body></html>
+
+</body>
+</html>
