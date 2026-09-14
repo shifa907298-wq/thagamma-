@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#111827" />
 <title>Zap Chat</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0}:root{--bg:#d9b463;--panel:#fff;--text:#111827;--muted:#667085;--border:#e5e7eb;--brand:#0f1d35;--bot:#f8fafc;--danger:#b42318;--skeleton:#e9edf2}body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;background:var(--bg);color:var(--text);display:grid;place-items:center;padding:14px}.chat-shell{width:min(100%,860px);height:min(90vh,800px);min-height:560px;background:var(--bg);border:1px solid rgba(255,255,255,.9);border-radius:22px;overflow:hidden;box-shadow:0 18px 55px rgba(17,24,39,.12);display:grid;grid-template-rows:auto 1fr auto}.chat-header{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.75)}.logo{width:42px;height:42px;border-radius:13px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px}.header-copy h1{font-size:18px}.status{margin-top:3px;color:var(--muted);font-size:12px;display:flex;gap:6px;align-items:center}.status-dot{width:7px;height:7px;border-radius:50%;background:#22c55e}.chat-body{overflow-y:auto;padding:18px 18px 14px;scroll-behavior:smooth}.message-row{display:flex;margin-bottom:12px}.message-row.user{justify-content:flex-end}.bubble{max-width:min(78%,620px);padding:11px 13px;border-radius:15px;font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.bot .bubble{background:var(--bot);border-bottom-left-radius:5px}.user .bubble{background:var(--brand);color:#fff;border-bottom-right-radius:5px}.error .bubble{color:var(--danger);background:#fef3f2}.quick-actions,.category-actions{display:flex;flex-wrap:wrap;gap:7px;margin:5px 0 16px}.quick-btn,.category-btn{border:1px solid var(--border);background:#fff;color:var(--text);padding:8px 11px;border-radius:999px;cursor:pointer;font:inherit;font-size:12px}.quick-btn:hover,.category-btn:hover{background:#f9fafb}.product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:7px 0 16px}.product-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;min-width:0}.product-media{height:190px;background:#f8fafc;display:grid;place-items:center;overflow:hidden}.product-image{width:100%;height:100%;object-fit:contain;background:#fff}.image-missing,.image-failed{padding:14px;text-align:center;font-size:11px;color:var(--muted)}.image-failed button{margin-top:8px;border:1px solid var(--border);background:#fff;border-radius:8px;padding:5px 8px;cursor:pointer}.product-copy{padding:10px}.product-name{font-weight:750;font-size:13px;line-height:1.35;margin-bottom:5px}.product-meta,.product-desc{font-size:11px;line-height:1.45;color:#475467}.product-desc{margin-top:5px}.typing{display:inline-flex;gap:5px;align-items:center;min-width:48px}.typing span{width:7px;height:7px;border-radius:50%;background:#98a2b3;animation:bounce 1.1s infinite ease-in-out}.typing span:nth-child(2){animation-delay:.14s}.typing span:nth-child(3){animation-delay:.28s}@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}.skeleton-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:7px 0 16px}.skeleton-card{height:290px;border-radius:14px;background:linear-gradient(90deg,#eef1f4 25%,#f7f8fa 37%,#eef1f4 63%);background-size:400% 100%;animation:shimmer 1.2s infinite}@keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}.composer{border-top:1px solid rgba(255,255,255,.75);padding:10px}.composer-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end;background:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.9);border-radius:14px;padding:7px}textarea{width:100%;resize:none;border:0;outline:0;background:transparent;padding:8px 9px;min-height:40px;max-height:120px;font:inherit;font-size:14px}.send-btn{width:42px;height:42px;border:0;border-radius:11px;background:var(--brand);color:#fff;cursor:pointer;font-size:17px}.send-btn:disabled{opacity:.45;cursor:not-allowed}.helper{text-align:center;color:var(--muted);font-size:9px;margin-top:5px}@media(max-width:700px){body{padding:0}.chat-shell{width:100%;height:100dvh;min-height:100dvh;border:0;border-radius:0}.product-grid,.skeleton-grid{grid-template-columns:1fr}.product-media{height:230px}.bubble{max-width:90%}}
+*{box-sizing:border-box;margin:0;padding:0}:root{--bg:#d9b463;--panel:#fff;--text:#111827;--muted:#667085;--border:#e5e7eb;--brand:#0f1d35;--bot:#f8fafc;--danger:#b42318;--skeleton:#e9edf2}body{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;min-height:100vh;background:var(--bg);color:var(--text);display:grid;place-items:center;padding:14px}.chat-shell{width:min(100%,860px);height:min(90vh,800px);min-height:560px;background:var(--bg);border:1px solid rgba(255,255,255,.9);border-radius:22px;overflow:hidden;box-shadow:0 18px 55px rgba(17,24,39,.12);display:grid;grid-template-rows:auto 1fr auto}.chat-header{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid rgba(255,255,255,.75)}.logo{width:42px;height:42px;border-radius:13px;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:800;font-size:20px}.header-copy h1{font-size:18px}.status{margin-top:3px;color:var(--muted);font-size:12px;display:flex;gap:6px;align-items:center}.status-dot{width:7px;height:7px;border-radius:50%;background:#22c55e}.chat-body{overflow-y:auto;padding:18px 18px 14px;scroll-behavior:smooth}.message-row{display:flex;margin-bottom:12px}.message-row.user{justify-content:flex-end}.bubble{max-width:min(78%,620px);padding:11px 13px;border-radius:15px;font-size:14px;line-height:1.5;white-space:pre-wrap;overflow-wrap:anywhere}.bot .bubble{background:var(--bot);border-bottom-left-radius:5px}.user .bubble{background:var(--brand);color:#fff;border-bottom-right-radius:5px}.error .bubble{color:var(--danger);background:#fef3f2}.quick-actions,.category-actions{display:flex;flex-wrap:wrap;gap:7px;margin:5px 0 16px}.quick-btn,.category-btn{border:1px solid var(--border);background:#fff;color:var(--text);padding:8px 11px;border-radius:999px;cursor:pointer;font:inherit;font-size:12px}.quick-btn:hover,.category-btn:hover{background:#f9fafb}.product-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:7px 0 16px}.product-card{background:#fff;border:1px solid var(--border);border-radius:14px;overflow:hidden;min-width:0}.product-media{height:190px;background:#f8fafc;display:grid;place-items:center;overflow:hidden}.product-image{width:100%;height:100%;object-fit:contain;background:#fff}.image-missing,.image-failed{padding:14px;text-align:center;font-size:11px;color:var(--muted)}.image-failed button{margin-top:8px;border:1px solid var(--border);background:#fff;border-radius:8px;padding:5px 8px;cursor:pointer}.product-copy{padding:10px}.product-name{font-weight:750;font-size:13px;line-height:1.35;margin-bottom:5px;cursor:pointer}.product-name:hover{text-decoration:underline}.product-meta,.product-desc{font-size:11px;line-height:1.45;color:#475467}.product-desc{margin-top:5px}.typing{display:inline-flex;gap:5px;align-items:center;min-width:48px}.typing span{width:7px;height:7px;border-radius:50%;background:#98a2b3;animation:bounce 1.1s infinite ease-in-out}.typing span:nth-child(2){animation-delay:.14s}.typing span:nth-child(3){animation-delay:.28s}@keyframes bounce{0%,60%,100%{transform:translateY(0);opacity:.5}30%{transform:translateY(-4px);opacity:1}}.skeleton-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:7px 0 16px}.skeleton-card{height:290px;border-radius:14px;background:linear-gradient(90deg,#eef1f4 25%,#f7f8fa 37%,#eef1f4 63%);background-size:400% 100%;animation:shimmer 1.2s infinite}@keyframes shimmer{0%{background-position:100% 0}100%{background-position:-100% 0}}.composer{border-top:1px solid rgba(255,255,255,.75);padding:10px}.composer-row{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:end;background:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.9);border-radius:14px;padding:7px}textarea{width:100%;resize:none;border:0;outline:0;background:transparent;padding:8px 9px;min-height:40px;max-height:120px;font:inherit;font-size:14px}.send-btn{width:42px;height:42px;border:0;border-radius:11px;background:var(--brand);color:#fff;cursor:pointer;font-size:17px}.send-btn:disabled{opacity:.45;cursor:not-allowed}.helper{text-align:center;color:var(--muted);font-size:9px;margin-top:5px}@media(max-width:700px){body{padding:0}.chat-shell{width:100%;height:100dvh;min-height:100dvh;border:0;border-radius:0}.product-grid,.skeleton-grid{grid-template-columns:1fr}.product-media{height:230px}.bubble{max-width:90%}}
 </style>
 </head>
 <body>
@@ -16,12 +16,14 @@
 <footer class="composer"><div class="composer-row"><textarea id="messageInput" rows="1" maxlength="1200" placeholder="Ask Zap Chat..." aria-label="Message"></textarea><button id="sendButton" class="send-btn" type="button" aria-label="Send">➤</button></div><div class="helper">Powered by Zap Chat AI</div></footer>
 </main>
 <script>
-const CHAT_API_URL="https://zapsoole.app.n8n.cloud/webhook/zap-chat-search-v4";
+const CHAT_API_URL="https://zapsoole.app.n8n.cloud/webhook/zap-chat-search-v5";
 
 const chatBody=document.getElementById('chatBody');
 const input=document.getElementById('messageInput');
 const sendButton=document.getElementById('sendButton');
 const quickActions=document.getElementById('quickActions');
+
+const text=(v)=>typeof v==='string'?v.trim():'';
 
 let sessionId=localStorage.getItem('zapChatSessionId');
 if(!sessionId){
@@ -40,21 +42,21 @@ if(!browserUserId){
 }
 
 let activeCategory=localStorage.getItem('zapChatActiveCategory')||'';
+let lastProducts=[];
+try{
+  const saved=JSON.parse(localStorage.getItem('zapChatLastProducts')||'[]');
+  if(Array.isArray(saved)) lastProducts=saved.slice(0,3);
+}catch{}
 
-const text=(v)=>typeof v==='string'?v.trim():'';
-
-function scrollBottom(){
-  chatBody.scrollTop=chatBody.scrollHeight;
-}
+function scrollBottom(){chatBody.scrollTop=chatBody.scrollHeight}
+function resize(){input.style.height='auto';input.style.height=Math.min(input.scrollHeight,120)+'px'}
 
 function addMessage(message,sender='bot',cls=''){
   const row=document.createElement('div');
   row.className=`message-row ${sender} ${cls}`.trim();
-
   const bubble=document.createElement('div');
   bubble.className='bubble';
   bubble.textContent=message;
-
   row.appendChild(bubble);
   chatBody.appendChild(row);
   scrollBottom();
@@ -63,73 +65,34 @@ function addMessage(message,sender='bot',cls=''){
 
 function addTyping(){
   removeTyping();
-
   const row=document.createElement('div');
-  row.id='typingRow';
-  row.className='message-row bot';
-
-  const bubble=document.createElement('div');
-  bubble.className='bubble';
+  row.id='typingRow';row.className='message-row bot';
+  const bubble=document.createElement('div');bubble.className='bubble';
   bubble.innerHTML='<div class="typing"><span></span><span></span><span></span></div>';
-
-  row.appendChild(bubble);
-  chatBody.appendChild(row);
-  scrollBottom();
+  row.appendChild(bubble);chatBody.appendChild(row);scrollBottom();
 }
-
-function removeTyping(){
-  document.getElementById('typingRow')?.remove();
-}
+function removeTyping(){document.getElementById('typingRow')?.remove()}
 
 function addSkeleton(){
   removeSkeleton();
-
-  const grid=document.createElement('div');
-  grid.id='skeletonGrid';
-  grid.className='skeleton-grid';
-
-  for(let i=0;i<3;i++){
-    const card=document.createElement('div');
-    card.className='skeleton-card';
-    grid.appendChild(card);
-  }
-
-  chatBody.appendChild(grid);
-  scrollBottom();
+  const grid=document.createElement('div');grid.id='skeletonGrid';grid.className='skeleton-grid';
+  for(let i=0;i<3;i++){const card=document.createElement('div');card.className='skeleton-card';grid.appendChild(card)}
+  chatBody.appendChild(grid);scrollBottom();
 }
+function removeSkeleton(){document.getElementById('skeletonGrid')?.remove()}
 
-function removeSkeleton(){
-  document.getElementById('skeletonGrid')?.remove();
-}
-
-/*
-  IMPORTANT:
-  Product images are now used DIRECTLY from products[].image_url.
-  There is no Cloudflare image proxy and no host/path rewriting.
-  Any valid HTTPS URL returned by the database can be displayed.
-*/
 function safeCatalogImageUrl(value){
   if(typeof value!=='string'||!value.trim()) return '';
-
   try{
     const url=new URL(value.trim());
-
-    if(url.protocol!=='https:') return '';
-
-    return url.href;
-  }catch{
-    return '';
-  }
+    return url.protocol==='https:'?url.href:'';
+  }catch{return ''}
 }
 
 function renderImage(media,product,index){
-  const raw=safeCatalogImageUrl(
-    product?.image_url ??
-    product?.imageUrl ??
-    product?.image ??
-    ''
-  );
+  const raw=safeCatalogImageUrl(product?.image_url??product?.imageUrl??product?.image??'');
 
+  // This state means the database/API truly supplied no usable URL.
   if(!raw){
     const missing=document.createElement('div');
     missing.className='image-missing';
@@ -144,248 +107,144 @@ function renderImage(media,product,index){
   img.alt=text(product?.name)||'Product image';
   img.decoding='async';
   img.loading=index===0?'eager':'lazy';
+  if(index===0) img.fetchPriority='high';
 
-  // Avoid sending the GitHub Pages URL to third-party image CDNs.
-  img.referrerPolicy='no-referrer';
-
-  if(index===0){
-    img.fetchPriority='high';
-  }
-
-  img.addEventListener('load',()=>{
-    console.info('Product image loaded:',raw);
-  });
-
+  // Do not set crossorigin: normal <img> embedding is the most compatible
+  // mode for third-party catalog CDNs. We do not read pixels/canvas data.
   img.addEventListener('error',()=>{
-    console.error('Product image failed to load:',{
-      product:text(product?.name),
-      image_url:raw
+    console.error('Product image URL exists but failed to load:',{
+      product:text(product?.name),image_url:raw
     });
-
     const failed=document.createElement('div');
     failed.className='image-failed';
     failed.textContent='Product image could not be loaded';
-
+    const link=document.createElement('button');
+    link.type='button';link.textContent='Open image';
+    link.addEventListener('click',()=>window.open(raw,'_blank','noopener,noreferrer'));
+    failed.appendChild(document.createElement('br'));
+    failed.appendChild(link);
     media.replaceChildren(failed);
   });
 
   media.appendChild(img);
 }
 
+function rememberProducts(products){
+  if(!Array.isArray(products)||!products.length) return;
+  lastProducts=products.slice(0,3).map(p=>({
+    id:String(p?.id??'').slice(0,128),
+    name:text(p?.name).slice(0,160),
+    category:text(p?.category).slice(0,120)
+  })).filter(p=>p.id||p.name);
+  localStorage.setItem('zapChatLastProducts',JSON.stringify(lastProducts));
+}
+
 function addProducts(products){
   if(!Array.isArray(products)||!products.length) return;
+  rememberProducts(products);
 
-  const grid=document.createElement('div');
-  grid.className='product-grid';
-
+  const grid=document.createElement('div');grid.className='product-grid';
   products.slice(0,3).forEach((product,index)=>{
-    const card=document.createElement('article');
-    card.className='product-card';
-
-    const media=document.createElement('div');
-    media.className='product-media';
+    const card=document.createElement('article');card.className='product-card';
+    const media=document.createElement('div');media.className='product-media';
     renderImage(media,product,index);
 
-    const copy=document.createElement('div');
-    copy.className='product-copy';
-
-    const name=document.createElement('div');
-    name.className='product-name';
+    const copy=document.createElement('div');copy.className='product-copy';
+    const name=document.createElement('div');name.className='product-name';
     name.textContent=text(product?.name)||'Product';
+    name.title='Click to ask about this product';
+    name.setAttribute('role','button');name.tabIndex=0;
+    const selectProduct=()=>sendMessage(name.textContent,{action:'product_details',productId:String(product?.id??'')},true);
+    name.addEventListener('click',selectProduct);
+    name.addEventListener('keydown',(event)=>{if(event.key==='Enter'||event.key===' '){event.preventDefault();selectProduct()}});
 
-    const meta=document.createElement('div');
-    meta.className='product-meta';
-
+    const meta=document.createElement('div');meta.className='product-meta';
     const numericPrice=Number(product?.price);
-    const price=Number.isFinite(numericPrice)
-      ? `${numericPrice.toFixed(3)} OMR`
-      : 'Price not confirmed';
-
-    const stock=
-      product?.availability==='in_stock'
-        ? 'In stock'
-        : product?.availability==='out_of_stock'
-          ? 'Out of stock'
-          : 'Stock not confirmed';
-
+    const price=Number.isFinite(numericPrice)?`${numericPrice.toFixed(3)} OMR`:'Price not confirmed';
+    const stock=product?.availability==='in_stock'?'In stock':product?.availability==='out_of_stock'?'Out of stock':'Stock not confirmed';
     meta.textContent=`${text(product?.category)}\n${price}\n${stock}`;
 
-    const description=document.createElement('div');
-    description.className='product-desc';
+    const description=document.createElement('div');description.className='product-desc';
     description.textContent=text(product?.description);
-
-    copy.append(name,meta);
-
-    if(description.textContent){
-      copy.appendChild(description);
-    }
-
-    card.append(media,copy);
-    grid.appendChild(card);
+    copy.append(name,meta);if(description.textContent) copy.appendChild(description);
+    card.append(media,copy);grid.appendChild(card);
   });
-
-  chatBody.appendChild(grid);
-  scrollBottom();
+  chatBody.appendChild(grid);scrollBottom();
 }
 
 function addCategories(categories){
   if(!Array.isArray(categories)||!categories.length) return;
-
-  const wrapper=document.createElement('div');
-  wrapper.className='category-actions';
-
-  [...new Set(categories)]
-    .filter(Boolean)
-    .forEach(category=>{
-      const button=document.createElement('button');
-      button.type='button';
-      button.className='category-btn';
-      button.textContent=category;
-
-      button.onclick=()=>{
-        activeCategory=category;
-        localStorage.setItem('zapChatActiveCategory',category);
-
-        sendMessage(
-          `Show me ${category}`,
-          {
-            action:'browse_category',
-            category
-          },
-          true
-        );
-      };
-
-      wrapper.appendChild(button);
+  const wrapper=document.createElement('div');wrapper.className='category-actions';
+  [...new Set(categories.map(text).filter(Boolean))].forEach(category=>{
+    const button=document.createElement('button');button.type='button';button.className='category-btn';button.textContent=category;
+    button.addEventListener('click',()=>{
+      activeCategory=category;localStorage.setItem('zapChatActiveCategory',category);
+      sendMessage(`Show me ${category}`,{action:'browse_category',category},true);
     });
-
-  chatBody.appendChild(wrapper);
-  scrollBottom();
+    wrapper.appendChild(button);
+  });
+  chatBody.appendChild(wrapper);scrollBottom();
 }
 
 async function readResponse(response){
   const contentType=response.headers.get('content-type')||'';
-
-  if(contentType.includes('application/json')){
-    return response.json();
-  }
-
+  if(contentType.includes('application/json')) return response.json();
   const body=await response.text();
-
-  try{
-    return JSON.parse(body);
-  }catch{
-    return {output:body};
-  }
+  try{return JSON.parse(body)}catch{return{output:body}}
 }
 
 function renderResponse(data){
   const message=text(data?.output);
-
-  if(message){
-    addMessage(message,'bot');
-  }
-
+  if(message) addMessage(message,'bot');
   addCategories(data?.categories);
   addProducts(data?.products);
 }
 
-function resize(){
-  input.style.height='auto';
-  input.style.height=Math.min(input.scrollHeight,120)+'px';
-}
-
-async function sendMessage(prefilled=null,meta={},categoryClick=false){
+async function sendMessage(prefilled=null,meta={},showCardsLoading=false){
   const message=text(prefilled??input.value);
-
   if(!message||sendButton.disabled) return;
 
-  if(quickActions){
-    quickActions.style.display='none';
-  }
-
-  addMessage(message,'user');
-
-  input.value='';
-  resize();
-  sendButton.disabled=true;
-
-  categoryClick ? addSkeleton() : addTyping();
+  if(quickActions) quickActions.style.display='none';
+  addMessage(message,'user');input.value='';resize();sendButton.disabled=true;
+  showCardsLoading?addSkeleton():addTyping();
 
   const controller=new AbortController();
-  const timeout=setTimeout(()=>controller.abort(),15000);
+  const timeout=setTimeout(()=>controller.abort(),12000);
   const started=performance.now();
 
   try{
     const response=await fetch(CHAT_API_URL,{
       method:'POST',
-      headers:{
-        'Content-Type':'application/json',
-        'X-Chat-User-Id':browserUserId
-      },
+      headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         message,
         sessionId,
         browserUserId,
         activeCategory,
+        contextProducts:lastProducts,
+        source:'zap-chat-web',
         ...meta
       }),
       signal:controller.signal
     });
 
     const data=await readResponse(response);
+    if(!response.ok) throw new Error(text(data?.output)||`HTTP ${response.status}`);
 
-    if(!response.ok){
-      throw new Error(
-        text(data?.output)||
-        `HTTP ${response.status}`
-      );
-    }
-
-    removeTyping();
-    removeSkeleton();
-
-    renderResponse(data);
-
-    console.info(
-      `Zap Chat response: ${(performance.now()-started).toFixed(0)}ms`,
-      data
-    );
+    removeTyping();removeSkeleton();renderResponse(data);
+    console.info(`Zap Chat response ${(performance.now()-started).toFixed(0)}ms`,data);
   }catch(error){
-    removeTyping();
-    removeSkeleton();
-
+    removeTyping();removeSkeleton();
     console.error('Zap Chat request failed:',error);
-
-    let message='I could not connect to Zap Chat. Please try again.';
-
-    if(error?.name==='AbortError'){
-      message='Zap Chat took too long to respond. Please try again.';
-    }else if(String(error?.message||'').includes('401')){
-      message='n8n rejected the browser request. Set the Webhook Authentication to None for this direct GitHub Pages version.';
-    }
-
-    addMessage(message,'bot','error');
+    addMessage(error?.name==='AbortError'?'Zap Chat took too long to respond. Please try again.':'I could not connect to Zap Chat. Please try again.','bot','error');
   }finally{
-    clearTimeout(timeout);
-    sendButton.disabled=false;
-    input.focus();
+    clearTimeout(timeout);sendButton.disabled=false;input.focus();
   }
 }
 
-sendButton.onclick=()=>sendMessage();
-
+sendButton.addEventListener('click',()=>sendMessage());
 input.addEventListener('input',resize);
-
-input.addEventListener('keydown',event=>{
-  if(event.key==='Enter'&&!event.shiftKey){
-    event.preventDefault();
-    sendMessage();
-  }
-});
-
-document.querySelectorAll('.quick-btn').forEach(button=>{
-  button.onclick=()=>sendMessage(button.dataset.message);
-});
+input.addEventListener('keydown',(event)=>{if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMessage()}});
+document.querySelectorAll('.quick-btn').forEach(button=>button.addEventListener('click',()=>sendMessage(button.dataset.message)));
 </script>
 </body></html>
