@@ -42,7 +42,7 @@
   <script>
     // Direct GitHub Pages -> n8n connection.
     // IMPORTANT: In the n8n Webhook node, set Authentication = None for this direct-browser version.
-    console.info('Zap Chat frontend: noon-image-fix-v1');
+    console.info('Zap Chat frontend: FINAL-working-v3');
     const CHAT_API_URL = "https://zapsoole.app.n8n.cloud/webhook/zap-chat-search-v3";
     const REQUEST_TIMEOUT_MS = 20000;
     const chatBody=document.getElementById('chatBody'),messageInput=document.getElementById('messageInput'),sendButton=document.getElementById('sendButton'),quickActions=document.getElementById('quickActions');
@@ -66,26 +66,34 @@
       try{
         const u=new URL(value.trim());
         if(u.protocol!=='https:')return'';
-
         const host=u.hostname.toLowerCase();
-        if(host==='f.nooncdn.com' && u.pathname.startsWith('/p/pzsku/')) return u.href;
-
-        if(host==='zmqjrkgzbscuyvrepskk.supabase.co'){
-          const p=u.pathname.toLowerCase();
-          if(
-            p.startsWith('/storage/v1/object/public/product-images/') ||
-            p.startsWith('/storage/v1/object/sign/product-images/') ||
-            p.startsWith('/storage/v1/render/image/public/product-images/') ||
-            p.startsWith('/storage/v1/render/image/sign/product-images/')
-          ) return u.href;
-        }
-
-        return'';
-      }catch{
-        return'';
-      }
+        if(host!=='f.nooncdn.com' && host!=='zmqjrkgzbscuyvrepskk.supabase.co')return'';
+        return u.href;
+      }catch{return'';}
     }
-    function addProducts(products){if(!Array.isArray(products)||!products.length)return;const grid=document.createElement('div');grid.className='product-grid';for(const p of products){if(!p||typeof p.name!=='string')continue;const card=document.createElement('article');card.className='product-card';const media=document.createElement('div');media.className='product-image-wrap';const url=safeImageUrl(p.image_url);if(!url){console.warn('No usable image_url for product:',p.name,p.image_url)}if(url){const img=document.createElement('img');img.className='product-image';img.src=url;img.alt=p.name;img.loading='lazy';img.decoding='async';img.referrerPolicy='strict-origin-when-cross-origin';img.addEventListener('error',()=>{console.error('Image failed to load:',p.name,img.src);media.replaceChildren(Object.assign(document.createElement('div'),{className:'image-placeholder',textContent:'Product image unavailable'}))});media.appendChild(img)}else{const ph=document.createElement('div');ph.className='image-placeholder';ph.textContent='Product image unavailable';media.appendChild(ph)}
+    function addProducts(products){if(!Array.isArray(products)||!products.length)return;const grid=document.createElement('div');grid.className='product-grid';for(const p of products){if(!p||typeof p.name!=='string')continue;const card=document.createElement('article');card.className='product-card';const media=document.createElement('div');media.className='product-image-wrap';const url=safeImageUrl(p.image_url);if(!url){console.warn('No usable image_url for product:',p.name,p.image_url)}if(url){const img=document.createElement('img');img.className='product-image';img.src=url;img.alt=p.name;img.loading='lazy';img.decoding='async';img.referrerPolicy='no-referrer';
+        const originalUrl=url;
+        let retryCount=0;
+        img.addEventListener('error',()=>{
+          console.error('Image failed to load:',p.name,img.src);
+          try{
+            const u=new URL(originalUrl);
+            if(u.hostname.toLowerCase()==='f.nooncdn.com' && retryCount===0){
+              retryCount++;
+              u.searchParams.set('width','800');
+              img.src=u.href;
+              return;
+            }
+            if(u.hostname.toLowerCase()==='f.nooncdn.com' && retryCount===1){
+              retryCount++;
+              u.searchParams.set('width','original');
+              img.src=u.href;
+              return;
+            }
+          }catch{}
+          media.replaceChildren(Object.assign(document.createElement('div'),{className:'image-placeholder',textContent:'Product image unavailable'}));
+        });
+        media.appendChild(img)}else{const ph=document.createElement('div');ph.className='image-placeholder';ph.textContent='Product image unavailable';media.appendChild(ph)}
       const copy=document.createElement('div');copy.className='product-copy';const name=document.createElement('div');name.className='product-name';name.textContent=p.name;const meta=document.createElement('div');meta.className='product-meta';for(const line of [p.category||'',money(p.price),stock(p.availability)]){if(!line)continue;const d=document.createElement('div');d.textContent=line;meta.appendChild(d)}copy.append(name,meta);if(p.description){const desc=document.createElement('div');desc.className='product-description';desc.textContent=p.description;copy.appendChild(desc)}card.append(media,copy);grid.appendChild(card)}chatBody.appendChild(grid);scrollToBottom()}
     async function readResponse(response){const ct=response.headers.get('content-type')||'';if(ct.includes('application/json'))return response.json();const text=await response.text();try{return JSON.parse(text)}catch{return{output:text}}}
     async function sendMessage(prefilled=null){const message=(prefilled??messageInput.value).trim();if(!message||sendButton.disabled)return;if(quickActions)quickActions.style.display='none';addMessage(message,'user');messageInput.value='';resizeTextarea();sendButton.disabled=true;messageInput.focus();addTyping();const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),REQUEST_TIMEOUT_MS);const started=performance.now();try{const response=await fetch(CHAT_API_URL,{method:'POST',headers:{'Content-Type':'application/json','X-Chat-User-Id':browserUserId},body:JSON.stringify({message,sessionId,source:'zap-chat-web'}),signal:controller.signal});const data=await readResponse(response);if(!response.ok)throw new Error(typeof data?.output==='string'?data.output:`HTTP ${response.status}`);removeTyping();addMessage(typeof data.output==='string'&&data.output.trim()?data.output:'I received an empty response.','bot');addProducts(data.products);addCategories(data.categories);console.debug('Zap Chat response ms:',Math.round(performance.now()-started),'status:',data.status)}catch(err){console.error('Zap Chat request failed:',err);removeTyping();let msg="I couldn't connect to Zap Chat. Please try again.";if(err?.name==='AbortError')msg='Zap Chat took too long to respond. Please try again.';else if(String(err?.message||'').includes('401'))msg='n8n blocked the request. For direct GitHub Pages mode, set the Webhook Authentication to None.';addMessage(msg,'bot','error')}finally{clearTimeout(timer);sendButton.disabled=false;messageInput.focus()}}
